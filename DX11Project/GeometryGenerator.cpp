@@ -3,7 +3,7 @@
 //***************************************************************************************
 
 #include "GeometryGenerator.h"
-#include "MathHelper.h"
+//#include "MathHelper.h"
 
 void GeometryGenerator::CreateBox(float width, float height, float depth, MeshData& meshData)
 {
@@ -280,7 +280,7 @@ void GeometryGenerator::Subdivide(MeshData& meshData)
 void GeometryGenerator::CreateGeosphere(float radius, UINT numSubdivisions, MeshData& meshData)
 {
 	// Put a cap on the number of subdivisions.
-	numSubdivisions = MathHelper::Min(numSubdivisions, 5u);
+	numSubdivisions = (numSubdivisions < 5u ? numSubdivisions : 5u);
 
 	// Approximate a sphere by tessellating an icosahedron.
 
@@ -330,9 +330,24 @@ void GeometryGenerator::CreateGeosphere(float radius, UINT numSubdivisions, Mesh
 		XMStoreFloat3(&meshData.Vertices[i].Normal, n);
 
 		// Derive texture coordinates from spherical coordinates.
-		float theta = MathHelper::AngleFromXY(
-			meshData.Vertices[i].Position.x, 
-			meshData.Vertices[i].Position.z);
+
+		float theta = 0.0f;
+		// Quadrant I or IV
+		if(meshData.Vertices[i].Position.x >= 0.0f) 
+		{
+			// If x = 0, then atanf(y/x) = +pi/2 if y > 0
+			//                atanf(y/x) = -pi/2 if y < 0
+			theta = atanf(meshData.Vertices[i].Position.y / meshData.Vertices[i].Position.x); // in [-pi/2, +pi/2]
+
+			if(theta < 0.0f)
+				theta += 2.0f * XM_PI; // in [0, 2*pi).
+		}
+
+		// Quadrant II or III
+		else      
+			theta = atanf(meshData.Vertices[i].Position.y/meshData.Vertices[i].Position.x) + XM_PI; // in [0, 2*pi).
+
+
 
 		float phi = acosf(meshData.Vertices[i].Position.y / radius);
 

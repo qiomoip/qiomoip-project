@@ -8,6 +8,28 @@ typedef struct _tagVertex
 	XMFLOAT3 vNormal;
 	XMFLOAT4 vColor;
 	XMFLOAT2 vTex;
+
+	_tagVertex()
+	{
+		memset(this, 0, sizeof(_tagVertex));
+	}
+
+	_tagVertex(XMFLOAT3 vPos, XMFLOAT3 vNormal, XMFLOAT4 vColor, XMFLOAT2 vTex)
+	{
+		this->vPos = vPos;
+		this->vNormal = vNormal;
+		this->vColor = vColor;
+		this->vTex = vTex;
+	};
+
+	_tagVertex(float pX, float pY, float pZ, float nx, float ny, float nz, XMFLOAT4 vColor,
+		float ux, float uy)
+	{
+		this->vPos = XMFLOAT3(pX, pY, pZ);
+		this->vNormal = XMFLOAT3(nx, ny, nz);
+		this->vColor = vColor;
+		this->vTex = XMFLOAT2(ux, uy);
+	};
 }Vertex;
 
 typedef struct _tagCamera

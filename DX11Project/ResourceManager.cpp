@@ -2,6 +2,7 @@
 #include "StaticMesh.h"
 #include "BoxGeometry.h"
 #include "Texture.h"
+#include "Terrain.h"
 
 CResourceManager::CResourceManager(void)
 {
@@ -51,6 +52,9 @@ CGeometry* CResourceManager::CreateGeometry(const GEOMETRY_TYPE& eGeo, const INP
 		break;
 	case GT_BOX:
 		pGeometry = new CBoxGeometry;
+		break;
+	case GT_TERRAIN:
+		pGeometry = new CTerrain;
 		break;
 	}
 

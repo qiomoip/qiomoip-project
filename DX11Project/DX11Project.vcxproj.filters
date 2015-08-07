@@ -73,6 +73,12 @@
     <Filter Include="소스 파일\Math">
       <UniqueIdentifier>{a85bb24d-b06c-410e-8d1f-5489ce4412b0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\DeviceResources\Mesh\Geometry\Terrain">
+      <UniqueIdentifier>{0429b8a3-c916-4f2a-a16b-ce7b370a16e9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\DeviceResources\Mesh\Geometry\Generator">
+      <UniqueIdentifier>{9ec0b638-741d-4089-8669-70bfb70397b9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include.h">
@@ -156,6 +162,12 @@
     <ClInclude Include="Math.h">
       <Filter>소스 파일\Math</Filter>
     </ClInclude>
+    <ClInclude Include="Terrain.h">
+      <Filter>소스 파일\DeviceResources\Mesh\Geometry\Terrain</Filter>
+    </ClInclude>
+    <ClInclude Include="GeometryGenerator.h">
+      <Filter>소스 파일\DeviceResources\Mesh\Geometry\Generator</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Timer.cpp">
@@ -223,6 +235,12 @@
     </ClCompile>
     <ClCompile Include="Math.cpp">
       <Filter>소스 파일\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Terrain.cpp">
+      <Filter>소스 파일\DeviceResources\Mesh\Geometry\Terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="GeometryGenerator.cpp">
+      <Filter>소스 파일\DeviceResources\Mesh\Geometry\Generator</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -54,7 +54,7 @@ HRESULT CGameEngine::CreateEntity()
 {
 	CEntity* pEntity = _SINGLE(CObjectManager)->CreateObject(
 		RT_ENTITY, ET_BOX, MT_STATIC, GT_BOX, IT_DEFAULT_DEFAULT_LIGHT,
-		L"Player", L"Resource\\Texture\\WoodCrate01.dds");
+		L"Player", L"Resource\\Texture\\WoodCrate02.dds");
 
 	if(!pEntity)
 	{
@@ -65,6 +65,22 @@ HRESULT CGameEngine::CreateEntity()
 	pEntity->PushPass(DEFAULT_LIGHT);
 	
 	m_listRender.push_back(pEntity);
+
+
+	CEntity* pTerrain = _SINGLE(CObjectManager)->CreateObject(
+		RT_ENTITY, ET_TERRAIN, MT_STATIC, GT_TERRAIN, IT_DEFAULT_DEFAULT_COLOR,
+		L"Terrain");
+
+	if(!pTerrain)
+	{
+		return false;
+	}
+
+	pTerrain->SetShaderInfo(L"DefaultShader", DST_DEFAULT);
+	pTerrain->PushPass(DEFAULT_COLOR);
+	
+	m_listRender.push_back(pTerrain);
+
 	return true;
 }
 
@@ -105,25 +121,25 @@ HRESULT CGameEngine::CreateLight()
 
 	
 
-	POINTLIGHT PointLight;
-	PointLight.vPos = XMFLOAT3(0.f, 0.f, -2.f);
-	PointLight.vDiffuse = XMFLOAT4(0.f, 1.f, 0.f, 1.f);
-	PointLight.vAmbient = PointLight.vDiffuse;
-	PointLight.vSpecular = PointLight.vDiffuse;
-	PointLight.vAtt = XMFLOAT3(0.f, 1.f, 0.f);
-	PointLight.fRange = 2.f;
+	//POINTLIGHT PointLight;
+	//PointLight.vPos = XMFLOAT3(0.f, 0.f, -2.f);
+	//PointLight.vDiffuse = XMFLOAT4(0.f, 1.f, 0.f, 1.f);
+	//PointLight.vAmbient = PointLight.vDiffuse;
+	//PointLight.vSpecular = PointLight.vDiffuse;
+	//PointLight.vAtt = XMFLOAT3(0.f, 1.f, 0.f);
+	//PointLight.fRange = 2.f;
 
 
 	MATERIAL Material;
 
 	Material.vDiffuse = XMFLOAT4(1.f, 1.f, 1.f, 1.0f);
 	Material.vAmbient = XMFLOAT4(0.5f, 0.5f, 0.5f, 1.0f);
-	Material.vSpecular = Material.vDiffuse;
+	Material.vSpecular = Material.vAmbient;
 
 	CShader* pShader = _SINGLE(CShaderManager)->FindShader(L"DefaultShader");
 
 	pShader->GetValue("gDirLight")->SetRawValue(&DirLight, 0, sizeof(DirLight));
-	pShader->GetValue("gPointLight")->SetRawValue(&PointLight, 0, sizeof(PointLight));;
+	//pShader->GetValue("gPointLight")->SetRawValue(&PointLight, 0, sizeof(PointLight));;
 	pShader->GetValue("material")->SetRawValue(&Material, 0, sizeof(Material));;
 
 	XMFLOAT3 vEye = _SINGLE(CCameraManager)->GetCurCamera()->GetPosition();

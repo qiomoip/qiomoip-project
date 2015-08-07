@@ -13,7 +13,7 @@ private:
 	ID3DX11EffectTechnique* mTech;*/
 	UINT mGridIndexCount;
 	//ID3DX11EffectMatrixVariable* mfxWorldViewProj;
-	ID3D11InputLayout* mInputLayout;
+	//ID3D11InputLayout* mInputLayout;
 
 public:
 	CTerrain(void);

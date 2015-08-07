@@ -182,7 +182,6 @@ void CDevice::BeginRender()
 {
 	assert(m_pImmediateContext);
 	assert(m_pSwapChain);
-
 	
 
 	m_pImmediateContext->ClearRenderTargetView(m_pRendeTargetView, reinterpret_cast<const float*>(&COLOR_BLUE));

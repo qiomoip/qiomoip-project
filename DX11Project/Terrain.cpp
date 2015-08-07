@@ -6,7 +6,7 @@
 
 CTerrain::CTerrain(void) 
 	:mVB(0), mIB(0), /*mFX(0), mTech(0),
-	mfxWorldViewProj(0),*/ mInputLayout(0), mGridIndexCount(0)
+	mfxWorldViewProj(0),*/ mGridIndexCount(0)
 {}
 
 CTerrain::~CTerrain(void)
@@ -14,14 +14,14 @@ CTerrain::~CTerrain(void)
 	Safe_Release(mVB);
 	Safe_Release(mIB);
 	//Safe_Release(mFX);
-	Safe_Release(mInputLayout);
+	//Safe_Release(mInputLayout);
 }
 
 void CTerrain::Init()
 {	
 	BuildGeometryBuffers();
-	BuildFX();
-	BuildVertexLayout();
+	//BuildFX();
+	//BuildVertexLayout();
 }
 
 void CTerrain::Render(CShader* pShader, const TECH_TYPE& eTech, const UINT& uPass)
@@ -31,7 +31,9 @@ void CTerrain::Render(CShader* pShader, const TECH_TYPE& eTech, const UINT& uPas
 	_ICONTEXT()->ClearDepthStencilView(
 		mDepthStencilView, D3D11_CLEAR_DEPTH|D3D11_CLEAR_STENCIL, 1.0f, 0);*/
 
-	_ICONTEXT()->IASetInputLayout(mInputLayout);
+	ID3D11InputLayout* pInputLayout = pShader->GetInputLayout(m_eInputLayout);
+
+	_ICONTEXT()->IASetInputLayout(pInputLayout);
     _ICONTEXT()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
  
 	UINT stride = sizeof(Vertex);
@@ -67,7 +69,7 @@ void CTerrain::BuildGeometryBuffers()
  
 	GeometryGenerator geoGen;
 
-	geoGen.CreateGrid(160.0f, 160.0f, 50, 50, grid);
+	geoGen.CreateGrid(10.0f, 10.0f, 50, 50, grid);
 
 	mGridIndexCount = grid.Indices.size();
 
@@ -84,33 +86,33 @@ void CTerrain::BuildGeometryBuffers()
 
 		p.y = 0.f/*GetHeight(p.x, p.z)*/;
 
-		vertices[i].Pos   = p;
+		vertices[i].vPos   = p;
 		
 		// Color the vertex based on its height.
 		if( p.y < -10.0f )
 		{
 			// Sandy beach color.
-			vertices[i].Color = XMFLOAT4(1.0f, 0.96f, 0.62f, 1.0f);
+			vertices[i].vColor = XMFLOAT4(1.0f, 0.96f, 0.62f, 1.0f);
 		}
 		else if( p.y < 5.0f )
 		{
 			// Light yellow-green.
-			vertices[i].Color = XMFLOAT4(0.48f, 0.77f, 0.46f, 1.0f);
+			vertices[i].vColor = XMFLOAT4(0.48f, 0.77f, 0.46f, 1.0f);
 		}
 		else if( p.y < 12.0f )
 		{
 			// Dark yellow-green.
-			vertices[i].Color = XMFLOAT4(0.1f, 0.48f, 0.19f, 1.0f);
+			vertices[i].vColor = XMFLOAT4(0.1f, 0.48f, 0.19f, 1.0f);
 		}
 		else if( p.y < 20.0f )
 		{
 			// Dark brown.
-			vertices[i].Color = XMFLOAT4(0.45f, 0.39f, 0.34f, 1.0f);
+			vertices[i].vColor = XMFLOAT4(0.45f, 0.39f, 0.34f, 1.0f);
 		}
 		else
 		{
 			// White snow.
-			vertices[i].Color = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+			vertices[i].vColor = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
 		}
 	}
 
@@ -141,7 +143,7 @@ void CTerrain::BuildGeometryBuffers()
 
 void CTerrain::BuildFX()
 {	
-	_SINGLE(CShaderManager)->CreateShader( _T("Color"), _T("color.fxo") );
+	//_SINGLE(CShaderManager)->CreateShader( _T("Color"), _T("color.fxo") );
 	/*std::ifstream fin("fx/color.fxo", std::ios::binary);
 
 	fin.seekg(0, std::ios_base::end);
@@ -161,16 +163,16 @@ void CTerrain::BuildFX()
 
 void CTerrain::BuildVertexLayout()
 {
-	// Create the vertex input layout.
-	D3D11_INPUT_ELEMENT_DESC vertexDesc[] =
-	{
-		{"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
-		{"COLOR",    0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0}
-	};
+	//// Create the vertex input layout.
+	//D3D11_INPUT_ELEMENT_DESC vertexDesc[] =
+	//{
+	//	{"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
+	//	{"COLOR",    0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0}
+	//};
 
-	// Create the input layout
-    D3DX11_PASS_DESC passDesc;
-    mTech->GetPassByIndex(0)->GetDesc(&passDesc);
-	HR(_DEVICE()->CreateInputLayout(vertexDesc, 2, passDesc.pIAInputSignature, 
-		passDesc.IAInputSignatureSize, &mInputLayout));
+	//// Create the input layout
+ //   D3DX11_PASS_DESC passDesc;
+ //   mTech->GetPassByIndex(0)->GetDesc(&passDesc);
+	//HR(_DEVICE()->CreateInputLayout(vertexDesc, 2, passDesc.pIAInputSignature, 
+	//	passDesc.IAInputSignatureSize, &mInputLayout));
 }

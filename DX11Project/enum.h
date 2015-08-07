@@ -4,7 +4,7 @@ enum ENTITY_TYPE
 {
 	ET_NONE = -1,
 	ET_BOX,
-	ET_HILL,
+	ET_TERRAIN,
 	ET_SKULL,
 	ET_WAVES,
 	ET_MAX,
@@ -23,7 +23,6 @@ enum PASS_TYPE
 	//TechKey_Pass
 	DEFAULT_COLOR,
 	DEFAULT_LIGHT,
-	DEFAULT_TEX,
 	DPT_MAX,
 };
 
@@ -57,6 +56,7 @@ enum GEOMETRY_TYPE
 	GT_STATIC,
 	GT_BOX,
 	GT_MAX,
+	GT_TERRAIN,
 };
 
 enum CAMERA_TYPE

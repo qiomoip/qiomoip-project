@@ -177,7 +177,11 @@ Texture2D g_texDifuseMap;
 
 SamplerState SamplerLinear
 {
-	Filter = MIN_MAG_MIP_LINEAR;
+	Filter = ANISOTROPIC;
+	MaxAnisotropy = 4;
+
+	AddressU = WRAP;
+	AddressV = WRAP;
 };
 
 
@@ -252,6 +256,9 @@ PS_OUT_DEFAULT LightPS(VS_OUT_LIGHT inp)
 
 	float4 texColor = g_texDifuseMap.Sample(SamplerLinear, inp.vTex);
 
+	outp.vColor = texColor;
+	return outp;
+
 	inp.vNormalW = normalize(inp.vNormalW);
 
 	float3 toEyeW = normalize(gEyePosW - inp.vPosW);
@@ -281,7 +288,7 @@ PS_OUT_DEFAULT LightPS(VS_OUT_LIGHT inp)
 	specular += S;
 
 	outp.vColor = texColor * (ambient + diffuse) + specular;
-	outp.vColor.a = material.vDiff.a;
+	outp.vColor.a = material.vDiff.a * texColor.a;
 
 	//outp.vColor = float4(0.f, 0.f, 0.f, 1.f);
 	//outp.vColor = D;

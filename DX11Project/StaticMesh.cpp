@@ -3,6 +3,7 @@
 #include "ResourceManager.h"
 #include "Texture.h"
 #include "Device.h"
+#include "Shader.h"
 
 CStaticMesh::CStaticMesh(void)
 {
@@ -42,6 +43,8 @@ void CStaticMesh::Render(CShader* pShader, const TECH_TYPE& eTech, const UINT& u
 	{
 		(*iter)->SetTexture(pShader);
 	}
+
+	pShader->GetTech(eTech)->GetPassByIndex(uPass)->Apply(0, _ICONTEXT());
 	
 	m_pGeometry->Render(pShader, eTech, uPass);
 }

@@ -25,7 +25,7 @@ CEntity* CObjectManager::CreateObject(const RENDER_TYPE& eRender, const ENTITY_T
 	{
 	case ET_NONE:
 	case ET_BOX:
-	case ET_HILL:
+	case ET_TERRAIN:
 	case ET_SKULL:
 	case ET_WAVES:
 	default :
