@@ -1,0 +1,236 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="소스 파일">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="헤더 파일">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="리소스 파일">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="소스 파일\Timer">
+      <UniqueIdentifier>{d4456215-f3aa-46b2-a966-7364ea1dbd71}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\App">
+      <UniqueIdentifier>{c7fc1742-a120-4d53-926c-e4c1b476d51c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Device">
+      <UniqueIdentifier>{a65e26ed-70de-4858-9b4e-7298942d34f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\MainWnd">
+      <UniqueIdentifier>{224132cf-f042-4322-9639-90e1a7d7366e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\DesignP">
+      <UniqueIdentifier>{1fb295d1-1c87-4624-ac8c-96931aea2ade}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\DesignP\Singleton">
+      <UniqueIdentifier>{01fed7a9-ad02-4952-b063-af1dbbdd830a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Shader">
+      <UniqueIdentifier>{1d1c5cc0-ae42-419a-ad80-bc98b35e38fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\DeviceResources">
+      <UniqueIdentifier>{760a3f26-76a6-443e-a197-e503704906dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Engine">
+      <UniqueIdentifier>{5489bb07-5488-4cc0-a3f2-22606f18a459}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\RenderManager">
+      <UniqueIdentifier>{abae279d-3f52-4207-aed1-942721f4a5d6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\ObjectManager">
+      <UniqueIdentifier>{66a7a51b-3653-4629-b16a-9f5af8ff97d3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\ObjectManager\Entity">
+      <UniqueIdentifier>{5fc9fdbc-f030-4399-9ae6-f841bc9b7252}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\DeviceResources\Mesh">
+      <UniqueIdentifier>{17be88c4-f5ab-4e42-9261-acc8a6a43b64}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\DeviceResources\Mesh\Texture">
+      <UniqueIdentifier>{4ba511fd-e8f6-4216-bf49-83a8708f98d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\DeviceResources\Mesh\Geometry">
+      <UniqueIdentifier>{0076e7a0-d52f-4c20-823f-563985c63a63}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\DeviceResources\Mesh\Geometry\BoxGeometry">
+      <UniqueIdentifier>{b03aba23-31f8-4682-9012-4da60d3ee34e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\DeviceResources\Mesh\StaticMesh">
+      <UniqueIdentifier>{91bf929f-301b-4dc1-8e25-2d474c7711be}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Camera">
+      <UniqueIdentifier>{6b10fc77-2177-459a-861d-84d581571e85}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Input">
+      <UniqueIdentifier>{5273ea40-f76f-4aa0-aea9-b4986d9cedb9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Math">
+      <UniqueIdentifier>{a85bb24d-b06c-410e-8d1f-5489ce4412b0}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Timer.h">
+      <Filter>소스 파일\Timer</Filter>
+    </ClInclude>
+    <ClInclude Include="define.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="App.h">
+      <Filter>소스 파일\App</Filter>
+    </ClInclude>
+    <ClInclude Include="ClientApp.h">
+      <Filter>소스 파일\App</Filter>
+    </ClInclude>
+    <ClInclude Include="function.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Device.h">
+      <Filter>소스 파일\Device</Filter>
+    </ClInclude>
+    <ClInclude Include="MainWnd.h">
+      <Filter>소스 파일\MainWnd</Filter>
+    </ClInclude>
+    <ClInclude Include="Singleton.h">
+      <Filter>소스 파일\DesignP\Singleton</Filter>
+    </ClInclude>
+    <ClInclude Include="struct.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader.h">
+      <Filter>소스 파일\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngine.h">
+      <Filter>소스 파일\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderManager.h">
+      <Filter>소스 파일\RenderManager</Filter>
+    </ClInclude>
+    <ClInclude Include="enum.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectManager.h">
+      <Filter>소스 파일\ObjectManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity.h">
+      <Filter>소스 파일\ObjectManager\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Geometry.h">
+      <Filter>소스 파일\DeviceResources\Mesh\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="BoxGeometry.h">
+      <Filter>소스 파일\DeviceResources\Mesh\Geometry\BoxGeometry</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>소스 파일\DeviceResources\Mesh\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseMesh.h">
+      <Filter>소스 파일\DeviceResources\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="StaticMesh.h">
+      <Filter>소스 파일\DeviceResources\Mesh\StaticMesh</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceManager.h">
+      <Filter>소스 파일\DeviceResources</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderManager.h">
+      <Filter>소스 파일\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>소스 파일\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraManager.h">
+      <Filter>소스 파일\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyManager.h">
+      <Filter>소스 파일\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Math.h">
+      <Filter>소스 파일\Math</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Timer.cpp">
+      <Filter>소스 파일\Timer</Filter>
+    </ClCompile>
+    <ClCompile Include="App.cpp">
+      <Filter>소스 파일\App</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Device.cpp">
+      <Filter>소스 파일\Device</Filter>
+    </ClCompile>
+    <ClCompile Include="MainWnd.cpp">
+      <Filter>소스 파일\MainWnd</Filter>
+    </ClCompile>
+    <ClCompile Include="Shader.cpp">
+      <Filter>소스 파일\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngine.cpp">
+      <Filter>소스 파일\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderManager.cpp">
+      <Filter>소스 파일\RenderManager</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectManager.cpp">
+      <Filter>소스 파일\ObjectManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity.cpp">
+      <Filter>소스 파일\ObjectManager\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="Geometry.cpp">
+      <Filter>소스 파일\DeviceResources\Mesh\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="BoxGeometry.cpp">
+      <Filter>소스 파일\DeviceResources\Mesh\Geometry\BoxGeometry</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>소스 파일\DeviceResources\Mesh\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseMesh.cpp">
+      <Filter>소스 파일\DeviceResources\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="StaticMesh.cpp">
+      <Filter>소스 파일\DeviceResources\Mesh\StaticMesh</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceManager.cpp">
+      <Filter>소스 파일\DeviceResources</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderManager.cpp">
+      <Filter>소스 파일\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>소스 파일\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraManager.cpp">
+      <Filter>소스 파일\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="ClientApp.cpp">
+      <Filter>소스 파일\App</Filter>
+    </ClCompile>
+    <ClCompile Include="KeyManager.cpp">
+      <Filter>소스 파일\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Math.cpp">
+      <Filter>소스 파일\Math</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="DefaultShader.fx">
+      <Filter>소스 파일\Shader</Filter>
+    </CustomBuild>
+    <CustomBuild Include="function.fx">
+      <Filter>소스 파일\Shader</Filter>
+    </CustomBuild>
+  </ItemGroup>
+</Project>
