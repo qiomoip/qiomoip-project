@@ -67,19 +67,19 @@ HRESULT CGameEngine::CreateEntity()
 	m_listRender.push_back(pEntity);
 
 
-	CEntity* pTerrain = _SINGLE(CObjectManager)->CreateObject(
-		RT_ENTITY, ET_TERRAIN, MT_STATIC, GT_TERRAIN, IT_DEFAULT_DEFAULT_COLOR,
-		L"Terrain");
+	//CEntity* pTerrain = _SINGLE(CObjectManager)->CreateObject(
+	//	RT_ENTITY, ET_TERRAIN, MT_STATIC, GT_TERRAIN, IT_DEFAULT_DEFAULT_COLOR,
+	//	L"Terrain");
 
-	if(!pTerrain)
-	{
-		return false;
-	}
+	//if(!pTerrain)
+	//{
+	//	return false;
+	//}
 
-	pTerrain->SetShaderInfo(L"DefaultShader", DST_DEFAULT);
-	pTerrain->PushPass(DEFAULT_COLOR);
-	
-	m_listRender.push_back(pTerrain);
+	//pTerrain->SetShaderInfo(L"DefaultShader", DST_DEFAULT);
+	//pTerrain->PushPass(DEFAULT_COLOR);
+	//
+	//m_listRender.push_back(pTerrain);
 
 	return true;
 }

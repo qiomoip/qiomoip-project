@@ -180,8 +180,8 @@ SamplerState SamplerLinear
 	Filter = ANISOTROPIC;
 	MaxAnisotropy = 4;
 
-	AddressU = WRAP;
-	AddressV = WRAP;
+	//AddressU = WRAP;
+	//AddressV = WRAP;
 };
 
 
@@ -193,12 +193,18 @@ struct VS_IN_DEFAULT
 	float2 vTex : TEXCOORD0;
 };
 
+struct VS_IN_LIGHT
+{
+	float3 vPosL : POSITION0;
+	float3 vNormalL : NORMAL;
+	float2 vTex : TEXCOORD0;
+};
+
 struct VS_OUT_DEFAULT
 {
 	float4 vPosH : SV_POSITION;
 	float3 vNormalH : NORMAL;
 	float4 vColor : COLOR0;
-	float2 vTex : TEXCOORD0;
 };
 
 struct VS_OUT_LIGHT
@@ -221,12 +227,12 @@ VS_OUT_DEFAULT DefaultVS(VS_IN_DEFAULT inv)
 	outv.vPosH = mul(float4(inv.vPosL, 1.0f), matWVP);
 	outv.vNormalH = mul(inv.vNormalL, (float3x3)matWVP);
 	outv.vColor = inv.vColor;
-	outv.vTex = inv.vTex;
+	//outv.vTex = inv.vTex;
 
 	return outv;
 }
 
-VS_OUT_LIGHT LightVS(VS_IN_DEFAULT inv)
+VS_OUT_LIGHT LightVS(VS_IN_LIGHT inv)
 {
 	VS_OUT_LIGHT outv = (VS_OUT_LIGHT)0;
 

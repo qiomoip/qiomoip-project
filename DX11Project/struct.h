@@ -32,6 +32,33 @@ typedef struct _tagVertex
 	};
 }Vertex;
 
+typedef struct _tagTexVertex
+{
+	XMFLOAT3 vPos;
+	XMFLOAT3 vNormal;
+	XMFLOAT2 vTex;
+
+	_tagTexVertex()
+	{
+		memset(this, 0, sizeof(_tagTexVertex));
+	}
+
+	_tagTexVertex(XMFLOAT3 vPos, XMFLOAT3 vNormal,XMFLOAT2 vTex)
+	{
+		this->vPos = vPos;
+		this->vNormal = vNormal;
+		this->vTex = vTex;
+	};
+
+	_tagTexVertex(float pX, float pY, float pZ, float nx, float ny, float nz,
+		float ux, float uy)
+	{
+		this->vPos = XMFLOAT3(pX, pY, pZ);
+		this->vNormal = XMFLOAT3(nx, ny, nz);
+		this->vTex = XMFLOAT2(ux, uy);
+	};
+}VERTEXTEX;
+
 typedef struct _tagCamera
 {
 	XMFLOAT4X4	matView;

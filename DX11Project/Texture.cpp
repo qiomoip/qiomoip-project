@@ -18,6 +18,7 @@ CTexture::~CTexture(void)
 HRESULT CTexture::CreateTexture(LPCWSTR pFileName, LPCWSTR pFileType)
 {
 	CreateShaderResourceViewFromFile(pFileName, pFileType, &m_tTexInfo.pShaderRes);
+	
 	return S_OK;
 }
 

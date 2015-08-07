@@ -1,6 +1,10 @@
 #include "BoxGeometry.h"
 #include "Device.h"
 #include "Shader.h"
+#include "GeometryGenerator.h"
+
+const int VERTEXCOUNT = 24;
+const int INDEXCOUNT = 36;
 
 CBoxGeometry::CBoxGeometry(void)
 {
@@ -13,16 +17,57 @@ CBoxGeometry::~CBoxGeometry(void)
 }
 
 void CBoxGeometry::Init()
-{
-	
-	CreateIndexBuffer();
-	CreateVertexBuffer();
+{	
+	GeometryGenerator::MeshData box;
+
+	CreateVertexBuffer(box);
+	CreateIndexBuffer(box);
+
+	//GeometryGenerator::MeshData box;
+
+	//GeometryGenerator geoGen;
+	//geoGen.CreateBox(1.0f, 1.0f, 1.0f, box);
+
+	//std::vector<VERTEXTEX> vertices(VERTEXCOUNT);
+
+	//UINT k = 0;
+	//for(size_t i = 0; i < box.Vertices.size(); ++i, ++k)
+	//{
+	//	vertices[k].vPos    = box.Vertices[i].Position;
+	//	vertices[k].vNormal = box.Vertices[i].Normal;
+	//	vertices[k].vTex    = box.Vertices[i].TexC;
+	//}
+
+ //   D3D11_BUFFER_DESC vbd;
+	//vbd.ByteWidth = sizeof(VERTEXTEX) * VERTEXCOUNT;
+	//vbd.Usage = D3D11_USAGE_DYNAMIC;
+	//vbd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+	//vbd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+ //   vbd.MiscFlags = 0;
+
+ //   D3D11_SUBRESOURCE_DATA vinitData;
+ //   vinitData.pSysMem = &vertices[0];
+	//HR(_DEVICE()->CreateBuffer(&vbd, &vinitData, &m_pVB));
+
+	//std::vector<UINT> indices;
+	//indices.insert(indices.end(), box.Indices.begin(), box.Indices.end());
+
+	//D3D11_BUFFER_DESC ibd;
+ //   ibd.Usage = D3D11_USAGE_DYNAMIC;
+	//ibd.ByteWidth = sizeof(UINT) * INDEXCOUNT;
+	//ibd.BindFlags = D3D11_BIND_INDEX_BUFFER;
+	//ibd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+ //   ibd.MiscFlags = 0;
+	//ibd.StructureByteStride = 0;
+ //   D3D11_SUBRESOURCE_DATA iinitData;
+ //   iinitData.pSysMem = &indices[0];
+ //   HR(_DEVICE()->CreateBuffer(&ibd, &iinitData, &m_pIB));
 
 	CaculateNormal();
 }
 
 
-void CBoxGeometry::CreateVertexBuffer()
+void CBoxGeometry::CreateVertexBuffer(GeometryGenerator::MeshData& box)
 {
 	//Vertex v[] = 
 	//{
@@ -38,69 +83,35 @@ void CBoxGeometry::CreateVertexBuffer()
 
 	//};
 
-	Vertex v[24];
+	//GeometryGenerator::MeshData box;
 
-	float w2 = 1.f;
-	float h2 = 1.f;
-	float d2 = 1.f;
-    
-	// Fill in the front face vertex data.
-	v[0] = Vertex(-w2, -h2, -d2, 0.0f, 0.0f, -1.0f,  (XMFLOAT4)(const float*)&COLOR_WHITE,0.0f, 1.0f);
-	v[1] = Vertex(-w2, +h2, -d2, 0.0f, 0.0f, -1.0f,  (XMFLOAT4)(const float*)&COLOR_WHITE,0.0f, 0.0f);
-	v[2] = Vertex(+w2, +h2, -d2, 0.0f, 0.0f, -1.0f,  (XMFLOAT4)(const float*)&COLOR_WHITE,1.0f, 0.0f);
-	v[3] = Vertex(+w2, -h2, -d2, 0.0f, 0.0f, -1.0f,  (XMFLOAT4)(const float*)&COLOR_WHITE,1.0f, 1.0f);
+	GeometryGenerator geoGen;
+	geoGen.CreateBox(1.0f, 1.0f, 1.0f, box);
 
-	// Fill in the back face vertex data.
-	v[4] = Vertex(-w2, -h2, +d2, 0.0f, 0.0f, 1.0f, (XMFLOAT4)(const float*)&COLOR_WHITE, 1.0f, 1.0f);
-	v[5] = Vertex(+w2, -h2, +d2, 0.0f, 0.0f, 1.0f, (XMFLOAT4)(const float*)&COLOR_WHITE, 0.0f, 1.0f);
-	v[6] = Vertex(+w2, +h2, +d2, 0.0f, 0.0f, 1.0f, (XMFLOAT4)(const float*)&COLOR_WHITE, 0.0f, 0.0f);
-	v[7] = Vertex(-w2, +h2, +d2, 0.0f, 0.0f, 1.0f, (XMFLOAT4)(const float*)&COLOR_WHITE, 1.0f, 0.0f);
+	std::vector<VERTEXTEX> vertices(VERTEXCOUNT);
 
-	// Fill in the top face vertex data.
-	v[8]  = Vertex(-w2, +h2, -d2, 0.0f, 1.0f, 0.0f, (XMFLOAT4)(const float*)&COLOR_WHITE,0.0f, 1.0f);
-	v[9]  = Vertex(-w2, +h2, +d2, 0.0f, 1.0f, 0.0f, (XMFLOAT4)(const float*)&COLOR_WHITE,0.0f, 0.0f);
-	v[10] = Vertex(+w2, +h2, +d2, 0.0f, 1.0f, 0.0f,(XMFLOAT4)(const float*)&COLOR_WHITE, 1.0f, 0.0f);
-	v[11] = Vertex(+w2, +h2, -d2, 0.0f, 1.0f, 0.0f, (XMFLOAT4)(const float*)&COLOR_WHITE,1.0f, 1.0f);
-
-	// Fill in the bottom face vertex data.
-	v[12] = Vertex(-w2, -h2, -d2, 0.0f, -1.0f, 0.0f,(XMFLOAT4)(const float*)&COLOR_WHITE, 1.0f, 1.0f);
-	v[13] = Vertex(+w2, -h2, -d2, 0.0f, -1.0f, 0.0f, (XMFLOAT4)(const float*)&COLOR_WHITE,0.0f, 1.0f);
-	v[14] = Vertex(+w2, -h2, +d2, 0.0f, -1.0f, 0.0f,(XMFLOAT4)(const float*)&COLOR_WHITE, 0.0f, 0.0f);
-	v[15] = Vertex(-w2, -h2, +d2, 0.0f, -1.0f, 0.0f, (XMFLOAT4)(const float*)&COLOR_WHITE,1.0f, 0.0f);
-
-	// Fill in the left face vertex data.
-	v[16] = Vertex(-w2, -h2, +d2, -1.0f, 0.0f, 0.0f,(XMFLOAT4)(const float*)&COLOR_WHITE,0.0f, 1.0f);
-	v[17] = Vertex(-w2, +h2, +d2, -1.0f, 0.0f, 0.0f,(XMFLOAT4)(const float*)&COLOR_WHITE,0.0f, 0.0f);
-	v[18] = Vertex(-w2, +h2, -d2, -1.0f, 0.0f, 0.0f,(XMFLOAT4)(const float*)&COLOR_WHITE,1.0f, 0.0f);
-	v[19] = Vertex(-w2, -h2, -d2, -1.0f, 0.0f, 0.0f,(XMFLOAT4)(const float*)&COLOR_WHITE,1.0f, 1.0f);
-
-	// Fill in the right face vertex data.
-	v[20] = Vertex(+w2, -h2, -d2, 1.0f, 0.0f, 0.0f,(XMFLOAT4)(const float*)&COLOR_WHITE, 0.0f, 1.0f);
-	v[21] = Vertex(+w2, +h2, -d2, 1.0f, 0.0f, 0.0f,(XMFLOAT4)(const float*)&COLOR_WHITE, 0.0f, 0.0f);
-	v[22] = Vertex(+w2, +h2, +d2, 1.0f, 0.0f, 0.0f,(XMFLOAT4)(const float*)&COLOR_WHITE, 1.0f, 0.0f);
-	v[23] = Vertex(+w2, -h2, +d2, 1.0f, 0.0f, 0.0f,(XMFLOAT4)(const float*)&COLOR_WHITE, 1.0f, 1.0f);
-
-	D3D11_BUFFER_DESC desc;
-	//memset(&desc, 0, sizeof(D3D11_BUFFER_DESC));
-	desc.ByteWidth = sizeof(Vertex) * 8;
-	desc.Usage = D3D11_USAGE_DYNAMIC;
-	desc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-	desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-    desc.MiscFlags = 0;
-	//desc.StructureByteStride = 0;
-
-	D3D11_SUBRESOURCE_DATA data;
-
-	data.pSysMem = v;
-
-	if(FAILED(_DEVICE()->CreateBuffer(&desc, &data, &m_pVB)))
+	UINT k = 0;
+	for(size_t i = 0; i < box.Vertices.size(); ++i, ++k)
 	{
-		MessageBeep(0);
-		return ;
+		vertices[k].vPos    = box.Vertices[i].Position;
+		vertices[k].vNormal = box.Vertices[i].Normal;
+		vertices[k].vTex    = box.Vertices[i].TexC;
 	}
+
+    D3D11_BUFFER_DESC vbd;
+	vbd.ByteWidth = sizeof(VERTEXTEX) * VERTEXCOUNT;
+	vbd.Usage = D3D11_USAGE_DYNAMIC;
+	vbd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+	vbd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+    vbd.MiscFlags = 0;
+
+    D3D11_SUBRESOURCE_DATA vinitData;
+    vinitData.pSysMem = &vertices[0];
+	HR(_DEVICE()->CreateBuffer(&vbd, &vinitData, &m_pVB));
+
 }
 
-void CBoxGeometry::CreateIndexBuffer()
+void CBoxGeometry::CreateIndexBuffer(GeometryGenerator::MeshData& box)
 {
 	//UINT i[] = 
 	//{
@@ -128,65 +139,29 @@ void CBoxGeometry::CreateIndexBuffer()
 	//	4, 3, 7
 	//};
 
-	UINT i[36];
 
-	// Fill in the front face index data
-	i[0] = 0; i[1] = 1; i[2] = 2;
-	i[3] = 0; i[4] = 2; i[5] = 3;
+	std::vector<UINT> indices;
+	indices.insert(indices.end(), box.Indices.begin(), box.Indices.end());
 
-	// Fill in the back face index data
-	i[6] = 4; i[7]  = 5; i[8]  = 6;
-	i[9] = 4; i[10] = 6; i[11] = 7;
+	D3D11_BUFFER_DESC ibd;
+    ibd.Usage = D3D11_USAGE_DYNAMIC;
+	ibd.ByteWidth = sizeof(UINT) * INDEXCOUNT;
+	ibd.BindFlags = D3D11_BIND_INDEX_BUFFER;
+	ibd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+    ibd.MiscFlags = 0;
+	ibd.StructureByteStride = 0;
+    D3D11_SUBRESOURCE_DATA iinitData;
+    iinitData.pSysMem = &indices[0];
+    HR(_DEVICE()->CreateBuffer(&ibd, &iinitData, &m_pIB));
 
-	// Fill in the top face index data
-	i[12] = 8; i[13] =  9; i[14] = 10;
-	i[15] = 8; i[16] = 10; i[17] = 11;
-
-	// Fill in the bottom face index data
-	i[18] = 12; i[19] = 13; i[20] = 14;
-	i[21] = 12; i[22] = 14; i[23] = 15;
-
-	// Fill in the left face index data
-	i[24] = 16; i[25] = 17; i[26] = 18;
-	i[27] = 16; i[28] = 18; i[29] = 19;
-
-	// Fill in the right face index data
-	i[30] = 20; i[31] = 21; i[32] = 22;
-	i[33] = 20; i[34] = 22; i[35] = 23;
-
-	//읽기 위해서 stagind, read로 만들려고 했으나
-	//그렇게 하면 버퍼 생성이 안 되니까
-	//일단 읽기용이더라도 dynamic, write로 생성...
-
-	D3D11_BUFFER_DESC desc;
-	//memset(&desc, 0, sizeof(D3D11_BUFFER_DESC));
-	desc.Usage = D3D11_USAGE_DYNAMIC;
-	desc.ByteWidth = sizeof(UINT) * 36;
-	desc.BindFlags = D3D11_BIND_INDEX_BUFFER;
-	desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-    desc.MiscFlags = 0;
-	desc.StructureByteStride = 0;
-
-
-	D3D11_SUBRESOURCE_DATA data;
-	memset(&data, 0, sizeof(D3D11_SUBRESOURCE_DATA));
-
-	data.pSysMem = i;
-
-	if(FAILED(_DEVICE()->CreateBuffer(&desc, &data, &m_pIB)))
-	{
-		MessageBeep(0);
-		return ;
-	}
 }
 
 void CBoxGeometry::Render(CShader* pShader, const TECH_TYPE& eTech, const UINT& uPass)
 {
-	UINT uSize =  sizeof(Vertex);
+	UINT uSize =  sizeof(VERTEXTEX);
 	UINT offset = 0;
 
 	ID3D11InputLayout* pInputLayout = pShader->GetInputLayout(m_eInputLayout);
-
 
 	_ICONTEXT()->IASetInputLayout(pInputLayout);
 	_ICONTEXT()->IASetVertexBuffers(0, 1, &m_pVB, &uSize, &offset);
@@ -197,7 +172,7 @@ void CBoxGeometry::Render(CShader* pShader, const TECH_TYPE& eTech, const UINT& 
 
 	
 	pTech->GetPassByIndex(uPass)->Apply(0, _ICONTEXT());
-	_ICONTEXT()->DrawIndexed(36, 0, 0);
+	_ICONTEXT()->DrawIndexed(INDEXCOUNT, 0, 0);
 	
 }
 
@@ -210,7 +185,7 @@ void CBoxGeometry::CaculateNormal()
 	_ICONTEXT()->Map(m_pVB, 0, D3D11_MAP_WRITE_NO_OVERWRITE, 0, &mappedResource);
 	_ICONTEXT()->Map(m_pIB, 0, D3D11_MAP_WRITE_NO_OVERWRITE, 0, &mappedRes);
 	
-	Vertex* pVtx = (Vertex*)mappedResource.pData;
+	VERTEXTEX* pVtx = (VERTEXTEX*)mappedResource.pData;
 	UINT* pIdx = (UINT*)mappedRes.pData;
 	
 	for(int i = 0; i < 12; ++i)
@@ -220,7 +195,7 @@ void CBoxGeometry::CaculateNormal()
 		idx[1] = pIdx[i * 3 + 1];
 		idx[2] = pIdx[i * 3 + 2];
 
-		Vertex v[3];
+		VERTEXTEX v[3];
 		v[0] = pVtx[idx[0]];
 		v[1] = pVtx[idx[1]];
 		v[2] = pVtx[idx[2]];
