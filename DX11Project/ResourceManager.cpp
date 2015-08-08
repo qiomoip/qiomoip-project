@@ -94,7 +94,29 @@ CTexture* CResourceManager::CreateTexture(tstring strTextureName)
 		szTypeName[iCnt - i] = szFileName[strTextureName.size() - 1 - i];
 	}
 	szTypeName[0] = '.';
-	pTexture->CreateTexture(szFileName, szTypeName);
+
+	//%d가 있는
+	TCHAR szMulti[10] = {0};
+
+	_tcscpy(szMulti, &szFileName[strTextureName.size() - iCnt - 1 - 2]);
+
+	//%d가 있는 텍스쳐
+	TCHAR szName[10] = {0};
+	_tcscpy(szName, L"%d");
+	_tcscat(szName, szTypeName);
+	if(_tcscmp(szName, szMulti) == 0)
+	{
+		memset(&szFileName[strTextureName.size() - iCnt - 1 - 2], 0, sizeof(TCHAR) * (iCnt + 3));
+		pTexture->CreateTexture(szFileName, szTypeName, true);
+	}
+
+	//없음
+	else
+	{
+		pTexture->CreateTexture(szFileName, szTypeName, false);
+	}
+
+	m_mapTexture.insert(map<tstring, CTexture*>::value_type(strTextureName, pTexture));
 	return pTexture;
 }
 

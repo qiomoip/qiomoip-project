@@ -6,6 +6,7 @@
 #include "Shader.h"
 
 CStaticMesh::CStaticMesh(void)
+	: m_pTexture(NULL)
 {
 }
 
@@ -27,22 +28,14 @@ void CStaticMesh::Init(const GEOMETRY_TYPE& eMesh, const INPUTLAYOUT_TYPE& eInpu
 
 	if(_tcscmp(strTextureName.c_str(), L""))
 	{
-		m_vecTexture.push_back(_SINGLE(CResourceManager)->CreateTexture(strTextureName));
+		m_pTexture = _SINGLE(CResourceManager)->CreateTexture(strTextureName);
 	}
 }
 
-void CStaticMesh::PushTexture(CTexture* pTexture)
-{
-	m_vecTexture.push_back(pTexture);
-}
 
 void CStaticMesh::Render(CShader* pShader, const TECH_TYPE& eTech, const UINT& uPass)
 {
-	for(vector<CTexture*>::iterator iter = m_vecTexture.begin();
-		iter != m_vecTexture.end(); ++iter)
-	{
-		(*iter)->SetTexture(pShader);
-	}
+	m_pTexture->SetTexture(pShader);
 
 	pShader->GetTech(eTech)->GetPassByIndex(uPass)->Apply(0, _ICONTEXT());
 	

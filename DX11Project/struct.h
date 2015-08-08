@@ -141,7 +141,8 @@ typedef struct _tagSpotLight
 
 typedef struct _tagTexture
 {
-	ID3D11Texture2D* pTex;
+	//ID3D11Texture2D* pTex;
 	ID3D11ShaderResourceView* pShaderRes;
+	tstring			strTextureName;
 	int				iFrame;		//텍스처 애니메이션을 위한 프레임 번호
 }TEXINFO;

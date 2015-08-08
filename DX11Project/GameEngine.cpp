@@ -52,9 +52,13 @@ HRESULT CGameEngine::Init()
 
 HRESULT CGameEngine::CreateEntity()
 {
+	/*CEntity* pEntity = _SINGLE(CObjectManager)->CreateObject(
+		RT_ENTITY, ET_BOX, MT_STATIC, GT_BOX, IT_DEFAULT_DEFAULT_LIGHT,
+		L"Player", L"Resource\\Texture\\WoodCrate02.dds");*/
+
 	CEntity* pEntity = _SINGLE(CObjectManager)->CreateObject(
 		RT_ENTITY, ET_PLAYER, MT_STATIC, GT_BOX, IT_DEFAULT_DEFAULT_LIGHT,
-		L"Player", L"Resource\\Texture\\WoodCrate02.dds");
+		L"Player", L"Resource\\Texture\\FireAnim\\Fire%d.dds");
 
 	if(!pEntity)
 	{
@@ -67,19 +71,19 @@ HRESULT CGameEngine::CreateEntity()
 	m_listRender.push_back(pEntity);
 
 
-	//CEntity* pTerrain = _SINGLE(CObjectManager)->CreateObject(
-	//	RT_ENTITY, ET_TERRAIN, MT_STATIC, GT_TERRAIN, IT_DEFAULT_DEFAULT_COLOR,
-	//	L"Terrain", _T("Resource\\Texture\\grass.dss") );
+	CEntity* pTerrain = _SINGLE(CObjectManager)->CreateObject(
+		RT_ENTITY, ET_TERRAIN, MT_STATIC, GT_TERRAIN, IT_DEFAULT_DEFAULT_LIGHT,
+		L"Terrain", _T("Resource\\Texture\\grass.dds") );
 
-	//if(!pTerrain)
-	//{
-	//	return false;
-	//}
+	if(!pTerrain)
+	{
+		return false;
+	}
 
-	//pTerrain->SetShaderInfo(L"DefaultShader", DST_DEFAULT);
-	//pTerrain->PushPass(DEFAULT_COLOR);
-	//
-	//m_listRender.push_back(pTerrain);
+	pTerrain->SetShaderInfo(L"DefaultShader", DST_DEFAULT);
+	pTerrain->PushPass(DEFAULT_LIGHT);
+	
+	m_listRender.push_back(pTerrain);
 
 	return true;
 }
@@ -107,17 +111,17 @@ HRESULT CGameEngine::CreateShader()
 	//½¦ÀÌ´õ¸¦ ¸¸µë¹Ì´Ù
 	_SINGLE(CShaderManager)->CreateShader(L"DefaultShader", L"DefaultShader.fx");
 
-	
+	/*
 	ID3DX11EffectScalarVariable* FogStart =  _SINGLE(CShaderManager)->FindShader(
 		_T("DefaultShader") )->GetScalar("gFogStart");
 	ID3DX11EffectScalarVariable* FogRange = _SINGLE(CShaderManager)->FindShader(
 		_T("DefaultShader") )->GetScalar("gFogRange");
 	ID3DX11EffectVectorVariable* FogColor = _SINGLE(CShaderManager)->FindShader(
 		_T("DefaultShader") )->GetVector("gFogColor");
-	XMGLOBALCONST XMVECTORF32 Silver    = {0.75f, 0.75f, 0.75f, 1.0f};
+	XMVECTORF32 Silver    = {0.75f, 0.75f, 0.75f, 1.0f};
 	FogColor->SetFloatVector(reinterpret_cast<const float*>(&Silver) );
-	FogStart->SetFloat(15.f); 
-	FogRange->SetFloat(170.f); 
+	FogStart->SetFloat(50.f); 
+	FogRange->SetFloat(50.f); */
 	
 	return true;
 }
@@ -129,17 +133,17 @@ HRESULT CGameEngine::CreateLight()
 	DirLight.vDir = _SINGLE(CCameraManager)->GetCurCamera()->GetLook();
 	DirLight.vDiffuse = XMFLOAT4(1.f, 1.f, 1.f, 1.0f);
 	DirLight.vAmbient = XMFLOAT4(0.5f, 0.5f, 0.5f, 1.0f);
-	DirLight.vSpecular = DirLight.vDiffuse;
+	DirLight.vSpecular = DirLight.vAmbient;
 
 	
 
-	//POINTLIGHT PointLight;
-	//PointLight.vPos = XMFLOAT3(0.f, 0.f, -2.f);
-	//PointLight.vDiffuse = XMFLOAT4(0.f, 1.f, 0.f, 1.f);
-	//PointLight.vAmbient = PointLight.vDiffuse;
-	//PointLight.vSpecular = PointLight.vDiffuse;
-	//PointLight.vAtt = XMFLOAT3(0.f, 1.f, 0.f);
-	//PointLight.fRange = 2.f;
+	POINTLIGHT PointLight;
+	PointLight.vPos = XMFLOAT3(0.f, 0.f, -2.f);
+	PointLight.vDiffuse = XMFLOAT4(0.f, 1.f, 0.f, 1.f);
+	PointLight.vAmbient = PointLight.vDiffuse;
+	PointLight.vSpecular = PointLight.vDiffuse;
+	PointLight.vAtt = XMFLOAT3(0.f, 1.f, 0.f);
+	PointLight.fRange = 10.f;
 
 
 	MATERIAL Material;
@@ -151,7 +155,7 @@ HRESULT CGameEngine::CreateLight()
 	CShader* pShader = _SINGLE(CShaderManager)->FindShader(L"DefaultShader");
 
 	pShader->GetValue("gDirLight")->SetRawValue(&DirLight, 0, sizeof(DirLight));
-	//pShader->GetValue("gPointLight")->SetRawValue(&PointLight, 0, sizeof(PointLight));;
+	pShader->GetValue("gPointLight")->SetRawValue(&PointLight, 0, sizeof(PointLight));;
 	pShader->GetValue("material")->SetRawValue(&Material, 0, sizeof(Material));;
 
 	XMFLOAT3 vEye = _SINGLE(CCameraManager)->GetCurCamera()->GetPosition();

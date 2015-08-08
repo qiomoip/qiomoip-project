@@ -10,7 +10,7 @@ CCamera::CCamera(void)
 	, m_fFarWindowHeight(0.f)
 	, m_eCam(CAM_PERSPECTIVE)
 	, m_pLookObject(NULL)
-	, m_vDest(XMFLOAT3(0.f, 50.f, 0.f))
+	, m_vDest(XMFLOAT3(0.f, 20.f, 0.f))
 {
 }
 

@@ -19,11 +19,10 @@ class CStaticMesh :
 	//이건 나중에 메쉬 만들 때 다시 할 것
 	//만약에 11은 이렇게 안 하면 어쩌지 ㅇㅅㅇ............
 private:
-	vector<CTexture*>	m_vecTexture;
+	CTexture*	m_pTexture;
 
 public:
 	void Init(const GEOMETRY_TYPE& eMesh, const INPUTLAYOUT_TYPE& eInputLayout, const LPCTSTR pFileName, tstring strTextureName);
-	void PushTexture(CTexture* pTexture);
 
 	void Render(CShader* pShader, const TECH_TYPE& eTech, const UINT& uPass);
 

@@ -49,7 +49,7 @@ HRESULT CShader::CreateEffect(const LPCTSTR pFileName)
 	_tcscat(szPath, L"\\");
 	_tcscat(szPath, pFileName);
 
-	HRESULT hr = D3DCompileFromFile(szPath, NULL, NULL, NULL, "fx_5_0", shaderFlags,
+	HRESULT hr = D3DCompileFromFile(szPath, NULL, D3D_COMPILE_STANDARD_FILE_INCLUDE, NULL, "fx_5_0", shaderFlags,
 		0, &pShader, &pErrorMsg);
 
 	if(pErrorMsg)

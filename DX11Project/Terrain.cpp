@@ -47,7 +47,7 @@ void CTerrain::BuildGeometryBuffers()
  
 	GeometryGenerator geoGen;
 
-	geoGen.CreateGrid(10.0f, 10.0f, 10, 10, grid);
+	geoGen.CreateGrid(30.0f, 30.0f, 5, 5, grid);
 
 	mGridIndexCount = grid.Indices.size();
 

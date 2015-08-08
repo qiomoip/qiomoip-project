@@ -1,161 +1,5 @@
-//#include "function.fx"
+#include "function.fx"
 
-
-//
-
-
-struct Material
-{
-	float4 vAmb;
-	float4 vDiff;
-	float4 vSpec;
-	float4 vReflect;
-};
-
-struct DirectionalLight
-{
-	float4 vAmb;
-	float4 vDiff;
-	float4 vSpec;
-
-	float3 vDir;
-	float pad;
-};
-
-struct PointLight
-{
-	float4 vAmb;
-	float4 vDiff;
-	float4 vSpec;
-
-	float3 vPos;
-	float fRange;
-	float3 vAtt;
-	float pad;
-};
-
-struct SpotLight
-{
-	float4 vAmb;
-	float4 vDiff;
-	float4 vSpec;
-
-	float3 vPos;
-	float fRange;
-	float3 vDir;
-	float fSpot;
-
-	float3 vAtt;
-	float pad;
-};
-
-void ComputeDirectionalLight(Material mat, DirectionalLight L,
-							 float3 normal, float3 toEye,
-							 out float4 ambient,
-							 out float4 diffuse,
-							 out float4 specular)
-{
-	ambient = float4(0.0f, 0.0f, 0.0f, 0.0f);
-	diffuse = float4(0.0f, 0.0f, 0.0f, 0.0f);
-	specular = float4(0.0f, 0.0f, 0.0f, 0.0f);
-
-	float3 lightVec = -L.vDir;
-	ambient = mat.vAmb * L.vAmb;
-
-	float diffuseFactor = dot(lightVec, normal);
-
-	[flatten]
-	if(diffuseFactor > 0.0f)
-	{
-		float3 v = reflect(-lightVec, normal);
-			float specFactor = pow(max(dot(v, toEye), 0.0f), mat.vSpec.w);
-
-		diffuse = diffuseFactor * mat.vDiff * L.vDiff;
-		specular = specFactor * mat.vSpec * L.vSpec;
-
-	}
-}
-
-void ComputePointLight(Material mat, PointLight L, float3 pos, float3 normal, float3 toEye,
-					   out float4 ambient, out float4 diffuse, out float4 specular)
-{
-	ambient = float4(0.0f, 0.0f, 0.0f, 0.0f);
-	diffuse = float4(0.0f, 0.0f, 0.0f, 0.0f);
-	specular = float4(0.0f, 0.0f, 0.0f, 0.0f);
-
-	float3 lightVec = L.vPos - pos;
-
-	float d = length(lightVec);
-
-	if(d > L.fRange)
-	{
-		return;
-	}
-
-	lightVec /= d;
-
-	ambient = mat.vAmb * L.vAmb;
-
-	float diffuseFactor = dot(lightVec, normal);
-
-	[flatten]
-	if(diffuseFactor > 0.0f)
-	{
-		float3 v = reflect(-lightVec, normal);
-		float specFactor = pow(max(dot(v, toEye), 0.0f), mat.vSpec.w);
-
-		diffuse = diffuseFactor * mat.vDiff * L.vDiff;
-		specular = specFactor * mat.vSpec * L.vSpec;
-	}
-
-	float att = 1.0f / dot(L.vAtt, float3(1.0f, d, d* d));
-
-	diffuse *= att;
-	specular *= att;
-}
-
-void ComputeSpotLight(Material mat, SpotLight L, float3 pos, float3 normal, float3 toEye,
-					   out float4 ambient, out float4 diffuse, out float4 specular)
-{
-	ambient = float4(0.0f, 0.0f, 0.0f, 0.0f);
-	diffuse = float4(0.0f, 0.0f, 0.0f, 0.0f);
-	specular = float4(0.0f, 0.0f, 0.0f, 0.0f);
-
-	float3 lightVec = L.vPos - pos;
-
-	float d = length(lightVec);
-
-	if(d > L.fRange)
-	{
-		return;
-	}
-
-	lightVec /= d;
-
-	ambient = mat.vAmb * L.vAmb;
-
-	float diffuseFactor = dot(lightVec, normal);
-
-	[flatten]
-	if(diffuseFactor > 0.0f)
-	{
-		float3 v = reflect(-lightVec, normal);
-		float specFactor = pow(max(dot(v, toEye), 0.0f), mat.vSpec.w);
-
-		diffuse = diffuseFactor * mat.vDiff * L.vDiff;
-		specular = specFactor * mat.vSpec * L.vSpec;
-	}
-
-	float spot = pow(max(dot(-lightVec, L.vDir), 0.0f), L.fSpot);
-
-	float att = spot / dot(L.vAtt, float3(1.0f, d, d* d));
-
-	ambient *= spot;
-	diffuse *= att;
-	specular *= att;
-}
-
-//
 cbuffer cbPerObject
 {
 	float4x4 matWVP;
@@ -171,10 +15,6 @@ cbuffer cbPerFrame
 	PointLight gPointLight;
 	SpotLight gSpotLight;
 	float3 gEyePosW;
-
-	float gFogStart;
-	float gFogRange;
-	float4 gFogColor;
 };
 
 Texture2D g_texDifuseMap;
@@ -184,8 +24,8 @@ SamplerState SamplerLinear
 	Filter = ANISOTROPIC;
 	MaxAnisotropy = 4;
 
-	//AddressU = WRAP;
-	//AddressV = WRAP;
+	AddressU = WRAP;
+	AddressV = WRAP;
 };
 
 
@@ -231,7 +71,6 @@ VS_OUT_DEFAULT DefaultVS(VS_IN_DEFAULT inv)
 	outv.vPosH = mul(float4(inv.vPosL, 1.0f), matWVP);
 	outv.vNormalH = mul(inv.vNormalL, (float3x3)matWVP);
 	outv.vColor = inv.vColor;
-	//outv.vTex = inv.vTex;
 
 	return outv;
 }
@@ -266,9 +105,6 @@ PS_OUT_DEFAULT LightPS(VS_OUT_LIGHT inp)
 
 	float4 texColor = g_texDifuseMap.Sample(SamplerLinear, inp.vTex);
 
-	//outp.vColor = texColor;
-	//return outp;
-
 	inp.vNormalW = normalize(inp.vNormalW);
 
 	float3 toEyeW = normalize(gEyePosW - inp.vPosW);
@@ -298,18 +134,8 @@ PS_OUT_DEFAULT LightPS(VS_OUT_LIGHT inp)
 	specular += S;
 
 	outp.vColor = texColor * (ambient + diffuse) + specular;
-	//outp.vColor.a = material.vDiff.a * texColor.a;
+	outp.vColor.a = material.vDiff.a;
 
-	//안개
-	
-	if( gFogEnabled )
-	{
-		float fogLerp = saturate( (distToEye - gFogStart) / gFogRange );
-		//안개 생삭과 조명된 색상을 섞는다. 
-		outp.vColor = lerp(outp.vColor, gFogColor, fogLerp); 
-	}
-	outp.vColor.a = material.Diffuse.a * texColor.a;
-	//안개 끝
 	//outp.vColor = float4(0.f, 0.f, 0.f, 1.f);
 	//outp.vColor = D;
 	//outp.vColor.a = 1.f;
