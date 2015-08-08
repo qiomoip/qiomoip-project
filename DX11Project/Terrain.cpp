@@ -5,62 +5,40 @@
 #include "ShaderManager.h"
 
 CTerrain::CTerrain(void) 
-	:mVB(0), mIB(0), /*mFX(0), mTech(0),
-	mfxWorldViewProj(0),*/ mGridIndexCount(0)
+	:mVB(0), mIB(0), mGridIndexCount(0)
 {}
 
 CTerrain::~CTerrain(void)
 {
 	Safe_Release(mVB);
 	Safe_Release(mIB);
-	//Safe_Release(mFX);
-	//Safe_Release(mInputLayout);
+
 }
 
 void CTerrain::Init()
 {	
 	BuildGeometryBuffers();
-	//BuildFX();
-	//BuildVertexLayout();
 }
 
 void CTerrain::Render(CShader* pShader, const TECH_TYPE& eTech, const UINT& uPass)
 {
-	/*_ICONTEXT()->ClearRenderTargetView(
-		mRenderTargetView, reinterpret_cast<const float*>(&Colors::LightSteelBlue));
-	_ICONTEXT()->ClearDepthStencilView(
-		mDepthStencilView, D3D11_CLEAR_DEPTH|D3D11_CLEAR_STENCIL, 1.0f, 0);*/
+	UINT stride = sizeof(Vertex);
+    UINT offset = 0;
 
 	ID3D11InputLayout* pInputLayout = pShader->GetInputLayout(m_eInputLayout);
 
 	_ICONTEXT()->IASetInputLayout(pInputLayout);
     _ICONTEXT()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
  
-	UINT stride = sizeof(Vertex);
-    UINT offset = 0;
     _ICONTEXT()->IASetVertexBuffers(0, 1, &mVB, &stride, &offset);
 	_ICONTEXT()->IASetIndexBuffer(mIB, DXGI_FORMAT_R32_UINT, 0);
 
-	// Set constants
-	
-	/*XMMATRIX view  = XMLoadFloat4x4(&mView);
-	XMMATRIX proj  = XMLoadFloat4x4(&mProj);
-	XMMATRIX world = XMLoadFloat4x4(&mGridWorld);
-	XMMATRIX worldViewProj = world*view*proj;*/
 	ID3DX11EffectTechnique* pTech = pShader->GetTech(eTech);
 
 	
 	pTech->GetPassByIndex(uPass)->Apply(0, _ICONTEXT());
 	_ICONTEXT()->DrawIndexed(mGridIndexCount, 0, 0);
-  //  D3DX11_TECHNIQUE_DESC techDesc;
-  //  mTech->GetDesc( &techDesc );
-  //  for(UINT p = 0; p < techDesc.Passes; ++p)
-  //  {
-		//// Draw the grid.
-		////mfxWorldViewProj->SetMatrix(reinterpret_cast<float*>(&worldViewProj));
-		//mTech->GetPassByIndex(p)->Apply(0, _ICONTEXT());
-		//_ICONTEXT()->DrawIndexed(mGridIndexCount, 0, 0);
-  //  }
+
 }
 
 void CTerrain::BuildGeometryBuffers()
@@ -69,7 +47,7 @@ void CTerrain::BuildGeometryBuffers()
  
 	GeometryGenerator geoGen;
 
-	geoGen.CreateGrid(10.0f, 10.0f, 50, 50, grid);
+	geoGen.CreateGrid(10.0f, 10.0f, 10, 10, grid);
 
 	mGridIndexCount = grid.Indices.size();
 
@@ -139,40 +117,4 @@ void CTerrain::BuildGeometryBuffers()
     D3D11_SUBRESOURCE_DATA iinitData;
 	iinitData.pSysMem = &grid.Indices[0];
     HR(_DEVICE()->CreateBuffer(&ibd, &iinitData, &mIB));
-}
-
-void CTerrain::BuildFX()
-{	
-	//_SINGLE(CShaderManager)->CreateShader( _T("Color"), _T("color.fxo") );
-	/*std::ifstream fin("fx/color.fxo", std::ios::binary);
-
-	fin.seekg(0, std::ios_base::end);
-	int size = (int)fin.tellg();
-	fin.seekg(0, std::ios_base::beg);
-	std::vector<char> compiledShader(size);
-
-	fin.read(&compiledShader[0], size);
-	fin.close();
-	
-	HR(D3DX11CreateEffectFromMemory(&compiledShader[0], size, 
-		0, _DEVICE(), &mFX));
-
-	mTech    = mFX->GetTechniqueByName("ColorTech");
-	mfxWorldViewProj = mFX->GetVariableByName("gWorldViewProj")->AsMatrix();*/
-}
-
-void CTerrain::BuildVertexLayout()
-{
-	//// Create the vertex input layout.
-	//D3D11_INPUT_ELEMENT_DESC vertexDesc[] =
-	//{
-	//	{"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
-	//	{"COLOR",    0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0}
-	//};
-
-	//// Create the input layout
- //   D3DX11_PASS_DESC passDesc;
- //   mTech->GetPassByIndex(0)->GetDesc(&passDesc);
-	//HR(_DEVICE()->CreateInputLayout(vertexDesc, 2, passDesc.pIAInputSignature, 
-	//	passDesc.IAInputSignatureSize, &mInputLayout));
 }

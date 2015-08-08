@@ -5,7 +5,7 @@ class CBaseMesh;
 
 class CEntity
 {
-private:
+protected:
 	CBaseMesh*	m_pMesh;
 
 	//포지션등 벡터, 매트릭스 정보
@@ -38,10 +38,10 @@ public:
 
 public:
 	bool Init();
-	void Update(const float& fTime);
-	void Input();
+	virtual void Update(const float& fTime);
+	virtual void Input();
 	//렌더 함수에서는 메쉬의 렌더를 호출한다
-	void Render();
+	virtual void Render();
 
 public:
 	CEntity(void);

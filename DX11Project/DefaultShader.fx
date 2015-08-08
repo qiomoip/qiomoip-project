@@ -171,6 +171,10 @@ cbuffer cbPerFrame
 	PointLight gPointLight;
 	SpotLight gSpotLight;
 	float3 gEyePosW;
+
+	float gFogStart;
+	float gFogRange;
+	float4 gFogColor;
 };
 
 Texture2D g_texDifuseMap;
@@ -262,8 +266,8 @@ PS_OUT_DEFAULT LightPS(VS_OUT_LIGHT inp)
 
 	float4 texColor = g_texDifuseMap.Sample(SamplerLinear, inp.vTex);
 
-	outp.vColor = texColor;
-	return outp;
+	//outp.vColor = texColor;
+	//return outp;
 
 	inp.vNormalW = normalize(inp.vNormalW);
 
@@ -294,8 +298,18 @@ PS_OUT_DEFAULT LightPS(VS_OUT_LIGHT inp)
 	specular += S;
 
 	outp.vColor = texColor * (ambient + diffuse) + specular;
-	outp.vColor.a = material.vDiff.a * texColor.a;
+	//outp.vColor.a = material.vDiff.a * texColor.a;
 
+	//안개
+	
+	if( gFogEnabled )
+	{
+		float fogLerp = saturate( (distToEye - gFogStart) / gFogRange );
+		//안개 생삭과 조명된 색상을 섞는다. 
+		outp.vColor = lerp(outp.vColor, gFogColor, fogLerp); 
+	}
+	outp.vColor.a = material.Diffuse.a * texColor.a;
+	//안개 끝
 	//outp.vColor = float4(0.f, 0.f, 0.f, 1.f);
 	//outp.vColor = D;
 	//outp.vColor.a = 1.f;

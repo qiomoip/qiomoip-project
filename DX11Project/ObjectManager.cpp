@@ -1,6 +1,8 @@
 #include "ObjectManager.h"
-#include "Entity.h"
 #include "ResourceManager.h"
+#include "Entity.h"
+#include "Player.h"
+#include "Zombie.h"
 
 CObjectManager::CObjectManager(void)
 {
@@ -28,8 +30,17 @@ CEntity* CObjectManager::CreateObject(const RENDER_TYPE& eRender, const ENTITY_T
 	case ET_TERRAIN:
 	case ET_SKULL:
 	case ET_WAVES:
-	default :
 		pEntity = new CEntity;
+		break;
+	case ET_PLAYER:
+		pEntity = new CPlayer;
+		break;
+	case ET_ZOMBIE:
+		pEntity = new CZombie;
+		break;
+	default :
+		//잘못 된 enum값.
+		return NULL;
 	break;
 	}
 
@@ -40,7 +51,8 @@ CEntity* CObjectManager::CreateObject(const RENDER_TYPE& eRender, const ENTITY_T
 		//여기서 생성된 렌더러를 엔티티에 넣음
 		//pEntity->SetMesh();
 
-		CBaseMesh* pMesh = _SINGLE(CResourceManager)->CreateRenderer(eMesh, eGeo, eInputLayout, pFileName, strTextureName);
+		CBaseMesh* pMesh = _SINGLE(CResourceManager)->CreateRenderer(
+			eMesh, eGeo, eInputLayout, pFileName, strTextureName);
 		pEntity->SetMesh(pMesh);
 	}
 

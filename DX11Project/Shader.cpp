@@ -178,6 +178,11 @@ ID3D11InputLayout*			CShader::GetInputLayout(const INPUTLAYOUT_TYPE& eInputLayto
 	return m_vecInputLayout[eInputLaytout];
 }
 
+ID3DX11EffectScalarVariable*			CShader::GetScalar(LPCSTR pName)
+{
+	return m_pFX->GetVariableByName(pName)->AsScalar();
+}
+
 ID3DX11EffectShaderResourceVariable*	CShader::GetShaderRes(LPCSTR pName)
 {
 	return m_pFX->GetVariableByName(pName)->AsShaderResource();

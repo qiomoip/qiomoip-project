@@ -25,7 +25,9 @@ public:
 	ID3DX11EffectVectorVariable* GetVector(LPCSTR pName);
 	ID3DX11EffectTechnique*		GetTech(const TECH_TYPE& eTech);
 	ID3D11InputLayout*			GetInputLayout(const INPUTLAYOUT_TYPE& eInputLaytout);
+	ID3DX11EffectScalarVariable*			GetScalar(LPCSTR pName);
 	ID3DX11EffectShaderResourceVariable*	GetShaderRes(LPCSTR pName);
+	
 
 
 public:

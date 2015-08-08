@@ -53,7 +53,7 @@ HRESULT CGameEngine::Init()
 HRESULT CGameEngine::CreateEntity()
 {
 	CEntity* pEntity = _SINGLE(CObjectManager)->CreateObject(
-		RT_ENTITY, ET_BOX, MT_STATIC, GT_BOX, IT_DEFAULT_DEFAULT_LIGHT,
+		RT_ENTITY, ET_PLAYER, MT_STATIC, GT_BOX, IT_DEFAULT_DEFAULT_LIGHT,
 		L"Player", L"Resource\\Texture\\WoodCrate02.dds");
 
 	if(!pEntity)
@@ -69,7 +69,7 @@ HRESULT CGameEngine::CreateEntity()
 
 	//CEntity* pTerrain = _SINGLE(CObjectManager)->CreateObject(
 	//	RT_ENTITY, ET_TERRAIN, MT_STATIC, GT_TERRAIN, IT_DEFAULT_DEFAULT_COLOR,
-	//	L"Terrain");
+	//	L"Terrain", _T("Resource\\Texture\\grass.dss") );
 
 	//if(!pTerrain)
 	//{
@@ -107,6 +107,18 @@ HRESULT CGameEngine::CreateShader()
 	//½¦ÀÌ´õ¸¦ ¸¸µë¹Ì´Ù
 	_SINGLE(CShaderManager)->CreateShader(L"DefaultShader", L"DefaultShader.fx");
 
+	
+	ID3DX11EffectScalarVariable* FogStart =  _SINGLE(CShaderManager)->FindShader(
+		_T("DefaultShader") )->GetScalar("gFogStart");
+	ID3DX11EffectScalarVariable* FogRange = _SINGLE(CShaderManager)->FindShader(
+		_T("DefaultShader") )->GetScalar("gFogRange");
+	ID3DX11EffectVectorVariable* FogColor = _SINGLE(CShaderManager)->FindShader(
+		_T("DefaultShader") )->GetVector("gFogColor");
+	XMGLOBALCONST XMVECTORF32 Silver    = {0.75f, 0.75f, 0.75f, 1.0f};
+	FogColor->SetFloatVector(reinterpret_cast<const float*>(&Silver) );
+	FogStart->SetFloat(15.f); 
+	FogRange->SetFloat(170.f); 
+	
 	return true;
 }
 
