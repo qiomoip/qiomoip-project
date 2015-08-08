@@ -79,6 +79,12 @@
     <Filter Include="소스 파일\DeviceResources\Mesh\Geometry\Generator">
       <UniqueIdentifier>{9ec0b638-741d-4089-8669-70bfb70397b9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\ObjectManager\Player">
+      <UniqueIdentifier>{67cf0121-dc76-4120-ba2b-438a4eeecfb5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\ObjectManager\Zombie">
+      <UniqueIdentifier>{f133b985-29ec-48fc-ab3b-bb6af400d3a0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include.h">
@@ -168,6 +174,12 @@
     <ClInclude Include="GeometryGenerator.h">
       <Filter>소스 파일\DeviceResources\Mesh\Geometry\Generator</Filter>
     </ClInclude>
+    <ClInclude Include="Zombie.h">
+      <Filter>소스 파일\ObjectManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>소스 파일\ObjectManager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Timer.cpp">
@@ -241,6 +253,12 @@
     </ClCompile>
     <ClCompile Include="GeometryGenerator.cpp">
       <Filter>소스 파일\DeviceResources\Mesh\Geometry\Generator</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>소스 파일\ObjectManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Zombie.cpp">
+      <Filter>소스 파일\ObjectManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
