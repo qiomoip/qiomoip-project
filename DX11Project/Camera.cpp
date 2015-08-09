@@ -139,7 +139,7 @@ void		CCamera::Input(float fTime)
 	{
 		if(pKey->bDown || pKey->bPush)
 		{
-			Pitch( (-1.f) * fTime * m_fSmooth );
+			Pitch( (-1.f) * fTime * XM_PI * 0.5f );
 		}
 	}
 
@@ -148,10 +148,27 @@ void		CCamera::Input(float fTime)
 	{
 		if(pKey->bDown || pKey->bPush)
 		{
-			Pitch( (1.f) * fTime * m_fSmooth );
+			Pitch( (1.f) * fTime * XM_PI * 0.5f );
 		}
 	}
 
+	pKey = _SINGLE(CKeyManager)->GetKey(KEY_VKPGDN);
+	if(pKey)
+	{
+		if(pKey->bDown || pKey->bPush)
+		{
+			RotateY( (1.f) * fTime * XM_PI * 0.5f );
+		}
+	}
+
+	pKey = _SINGLE(CKeyManager)->GetKey(KEY_VKDEL);
+	if(pKey)
+	{
+		if(pKey->bDown || pKey->bPush)
+		{
+			RotateY( (-1.f) * fTime * XM_PI * 0.5f );
+		}
+	}
 }
 
 //세계공간 카메라 위치를 조회
@@ -340,8 +357,8 @@ void		CCamera::Pitch(const float& fAngle)
 	//up 벡터와 look 벡터를 right 벡터에 대해 회전
 	XMMATRIX matRot =XMMatrixRotationAxis(XMLoadFloat3(&m_vRight), fAngle);
 
-	XMStoreFloat3(&m_vUp, XMVector2TransformNormal(XMLoadFloat3(&m_vUp), matRot));
-	XMStoreFloat3(&m_vLook, XMVector2TransformNormal(XMLoadFloat3(&m_vLook), matRot));
+	XMStoreFloat3(&m_vUp, XMVector3TransformNormal(XMLoadFloat3(&m_vUp), matRot));
+	XMStoreFloat3(&m_vLook, XMVector3TransformNormal(XMLoadFloat3(&m_vLook), matRot));
 }
 
 void		CCamera::RotateY(const float& fAngle)
@@ -349,9 +366,9 @@ void		CCamera::RotateY(const float& fAngle)
 	//기저벡터들을 세계의 y축에 대해 회전한다
 	XMMATRIX matRotY = XMMatrixRotationY(fAngle);
 
-	XMStoreFloat3(&m_vRight, XMVector2TransformNormal(XMLoadFloat3(&m_vRight), matRotY));
-	XMStoreFloat3(&m_vUp, XMVector2TransformNormal(XMLoadFloat3(&m_vUp), matRotY));
-	XMStoreFloat3(&m_vLook, XMVector2TransformNormal(XMLoadFloat3(&m_vLook), matRotY));
+	XMStoreFloat3(&m_vRight, XMVector3TransformNormal(XMLoadFloat3(&m_vRight), matRotY));
+	XMStoreFloat3(&m_vUp, XMVector3TransformNormal(XMLoadFloat3(&m_vUp), matRotY));
+	XMStoreFloat3(&m_vLook, XMVector3TransformNormal(XMLoadFloat3(&m_vLook), matRotY));
 }
 
 //매 프레임마다, 카메라 위치, 방향 수정 후 이 메서드를 호출해 시야 행렬 재구축
