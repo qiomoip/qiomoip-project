@@ -17,8 +17,8 @@ public:
 		const tstring& strEntityKey, const tstring& strTextureName = L"", const LPCTSTR pFileName = NULL);
 	CEntity* FindObject(const tstring& strKey);
 	void DeleteObject(const tstring& strKey);
-	void Input();
-	void Update(const float& fTime);
+	void Input(float fTime);
+	void Update(float fTime);
 	void Clear();
 
 private:

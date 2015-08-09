@@ -68,8 +68,8 @@ int CApp::Run()
 			if( !m_bAppPaused )
 			{
 				m_pMainTimer->CalculateFrameStats(m_pMainWnd->GetCaption(), m_pMainWnd->GetMainWnd());
-				Input();
-				Update((float)m_pMainTimer->GetDeltaTime());	
+				Input(m_pMainTimer->GetDeltaTime());
+				Update(m_pMainTimer->GetDeltaTime());	
 				Render();
 			}
 			else

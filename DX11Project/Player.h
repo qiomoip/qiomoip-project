@@ -7,6 +7,6 @@ public:
 	CPlayer(void);
 	~CPlayer(void);
 
-	void Input();
+	void Input(float fTIme);
 };
 

@@ -88,17 +88,17 @@ void CObjectManager::DeleteObject(const tstring& strKey)
 	m_mapObject.erase(iter);
 }
 
-void CObjectManager::Input()
+void CObjectManager::Input(float fTime)
 {
 	map<tstring, CEntity*>::iterator iter = m_mapObject.begin();
 
 	for(; iter != m_mapObject.end(); ++iter)
 	{
-		iter->second->Input();
+		iter->second->Input(fTime);
 	}
 }
 
-void CObjectManager::Update(const float& fTime)
+void CObjectManager::Update(float fTime)
 {
 	map<tstring, CEntity*>::iterator iter = m_mapObject.begin();
 

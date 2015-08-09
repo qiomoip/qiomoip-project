@@ -16,6 +16,20 @@ void CKeyManager::Initialize()
 	SetKeyData(KEY_VKLEFT, VK_LEFT);
 	SetKeyData(KEY_VKUP, VK_UP);
 	SetKeyData(KEY_VKDOWN, VK_DOWN);
+	SetKeyData(KEY_W, 'W');
+	SetKeyData(KEY_S, 'S');
+	SetKeyData(KEY_D, 'D');
+	SetKeyData(KEY_A, 'A');
+	SetKeyData(KEY_C, 'C');
+	SetKeyData(KEY_Z, 'Z');
+	SetKeyData(KEY_VKINS, VK_INSERT);
+	SetKeyData(KEY_VKDEL, VK_DELETE);
+	SetKeyData(KEY_VKHOME, VK_HOME);
+	SetKeyData(KEY_VKEND, VK_END);
+	SetKeyData(KEY_VKPGUP, VK_PRIOR);
+	SetKeyData(KEY_VKPGDN, VK_NEXT);
+	SetKeyData(KEY_VKSPACE, VK_SPACE);
+	
 }
 void CKeyManager::SetKeyState()
 {

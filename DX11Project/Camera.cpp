@@ -1,6 +1,8 @@
 #include "Camera.h"
 #include "Entity.h"
 
+#include "KeyManager.h"
+
 CCamera::CCamera(void)
 	: m_fNearZ(1.f)
 	, m_fFarZ(1000.f)
@@ -11,6 +13,7 @@ CCamera::CCamera(void)
 	, m_eCam(CAM_PERSPECTIVE)
 	, m_pLookObject(NULL)
 	, m_vDest(XMFLOAT3(0.f, 20.f, 0.f))
+	, m_fSmooth(10.f)
 {
 }
 
@@ -43,8 +46,112 @@ void		CCamera::Update()
 	UpdateViewMatrix();
 }
 
-void		CCamera::Input()
+void		CCamera::Input(float fTime)
 {
+	const KEYINFO* pKey = NULL;
+	
+	pKey = _SINGLE(CKeyManager)->GetKey(KEY_W);
+	if(pKey)
+	{
+		if(pKey->bDown || pKey->bPush)
+		{
+			XMVECTOR	vPos = XMLoadFloat3(&m_vPosition);
+			XMVECTOR	vWorldX = XMLoadFloat3(&m_vLook);
+
+			vPos += vWorldX * fTime * m_fSmooth;
+
+			XMStoreFloat3(&m_vPosition, vPos);
+		}
+	}
+
+	pKey = _SINGLE(CKeyManager)->GetKey(KEY_S);
+	if(pKey)
+	{
+		if(pKey->bDown || pKey->bPush)
+		{
+			XMVECTOR	vPos = XMLoadFloat3(&m_vPosition);
+			XMVECTOR	vWorldX = XMLoadFloat3(&m_vLook);
+
+			vPos += vWorldX * (-1.f) * fTime * m_fSmooth;
+
+			XMStoreFloat3(&m_vPosition, vPos);
+		}
+	}
+
+	pKey = _SINGLE(CKeyManager)->GetKey(KEY_D);
+	if(pKey)
+	{
+		if(pKey->bDown || pKey->bPush)
+		{
+			XMVECTOR	vPos = XMLoadFloat3(&m_vPosition);
+			XMVECTOR	vWorldX = XMLoadFloat3(&m_vRight);
+
+			vPos += vWorldX * fTime * m_fSmooth;
+
+			XMStoreFloat3(&m_vPosition, vPos);
+		}
+	}
+
+	pKey = _SINGLE(CKeyManager)->GetKey(KEY_A);
+	if(pKey)
+	{
+		if(pKey->bDown || pKey->bPush)
+		{
+			XMVECTOR	vPos = XMLoadFloat3(&m_vPosition);
+			XMVECTOR	vWorldX = XMLoadFloat3(&m_vRight);
+
+			vPos += vWorldX * (-1.f) * fTime * m_fSmooth;
+
+			XMStoreFloat3(&m_vPosition, vPos);
+		}
+	}
+
+	pKey = _SINGLE(CKeyManager)->GetKey(KEY_C);
+	if(pKey)
+	{
+		if(pKey->bDown || pKey->bPush)
+		{
+			XMVECTOR	vPos = XMLoadFloat3(&m_vPosition);
+			XMVECTOR	vWorldX = XMLoadFloat3(&m_vUp);
+
+			vPos += vWorldX * fTime * m_fSmooth;
+
+			XMStoreFloat3(&m_vPosition, vPos);
+		}
+	}
+
+	pKey = _SINGLE(CKeyManager)->GetKey(KEY_Z);
+	if(pKey)
+	{
+		if(pKey->bDown || pKey->bPush)
+		{
+			XMVECTOR	vPos = XMLoadFloat3(&m_vPosition);
+			XMVECTOR	vWorldX = XMLoadFloat3(&m_vUp);
+
+			vPos += vWorldX * (-1.f) * fTime * m_fSmooth;
+
+			XMStoreFloat3(&m_vPosition, vPos);
+		}
+	}
+
+	pKey = _SINGLE(CKeyManager)->GetKey(KEY_VKHOME);
+	if(pKey)
+	{
+		if(pKey->bDown || pKey->bPush)
+		{
+			Pitch( (-1.f) * fTime * m_fSmooth );
+		}
+	}
+
+	pKey = _SINGLE(CKeyManager)->GetKey(KEY_VKEND);
+	if(pKey)
+	{
+		if(pKey->bDown || pKey->bPush)
+		{
+			Pitch( (1.f) * fTime * m_fSmooth );
+		}
+	}
+
 }
 
 //세계공간 카메라 위치를 조회

@@ -23,8 +23,8 @@ public:
 
 	void SetLens(const float& fWidth, const float& fHeight, const float& fFovY, const float& fAspect, const float& fZn, const float& fZf);
 
-	void Update();
-	void Input();
+	void Update(float fTime);
+	void Input(float fTime);
 	void Clear();
 
 private:

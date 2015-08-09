@@ -29,10 +29,13 @@ private:
 
 	XMFLOAT3	m_vDest;
 
+	//카메라이동, 회전 속도 값.
+	float		m_fSmooth;
+
 public:
 	virtual void		Init();
 	virtual void		Update();
-	virtual void		Input();
+	virtual void		Input(float fTime);
 
 	//세계공간 카메라 위치를 조회
 	XMVECTOR			GetPositionXM() const;
@@ -82,7 +85,9 @@ public:
 	void		Walk(const float& fDist);
 
 	//카메라 회전
+	//X축 회전
 	void		Pitch(const float& fAngle);
+	//Y축 회전
 	void		RotateY(const float& fAngle);
 
 	//매 프레임마다, 카메라 위치, 방향 수정 후 이 메서드를 호출해 시야 행렬 재구축

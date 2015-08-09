@@ -34,9 +34,9 @@ void CClientApp::Update(float fTime)
 	_SINGLE(CGameEngine)->Update(fTime);
 }
 
-void CClientApp::Input()
+void CClientApp::Input(float fTime)
 {
-	_SINGLE(CGameEngine)->Input();
+	_SINGLE(CGameEngine)->Input(fTime);
 }
 
 void CClientApp::Render()

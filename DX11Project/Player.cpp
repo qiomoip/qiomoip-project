@@ -10,7 +10,7 @@ CPlayer::~CPlayer(void)
 {
 }
 
-void CPlayer::Input()
+void CPlayer::Input(float fTIme)
 {
 	//움직이기
 	const KEYINFO* pKeyRight = _SINGLE(CKeyManager)->GetKey(KEY_VKRIGHT);
@@ -22,7 +22,7 @@ void CPlayer::Input()
 			XMVECTOR	vPos = XMLoadFloat3(&m_vPos);
 			XMVECTOR	vWorldX = XMLoadFloat3(&m_WorldAxis[AT_X]);
 
-			vPos += vWorldX * 0.01f;
+			vPos += vWorldX * m_fSmooth * fTIme;
 
 			XMStoreFloat3(&m_vPos, vPos);
 		}
@@ -37,7 +37,7 @@ void CPlayer::Input()
 			XMVECTOR	vPos = XMLoadFloat3(&m_vPos);
 			XMVECTOR	vWorldX = XMLoadFloat3(&m_WorldAxis[AT_X]);
 
-			vPos -= vWorldX * 0.01f;
+			vPos -= vWorldX * m_fSmooth * fTIme;
 
 			XMStoreFloat3(&m_vPos, vPos);
 		}
@@ -52,7 +52,7 @@ void CPlayer::Input()
 			XMVECTOR	vPos = XMLoadFloat3(&m_vPos);
 			XMVECTOR	vWorldX = XMLoadFloat3(&m_WorldAxis[AT_Z]);
 
-			vPos += vWorldX * 0.01f;
+			vPos += vWorldX * m_fSmooth * fTIme;
 
 			XMStoreFloat3(&m_vPos, vPos);
 		}
@@ -67,7 +67,7 @@ void CPlayer::Input()
 			XMVECTOR	vPos = XMLoadFloat3(&m_vPos);
 			XMVECTOR	vWorldX = XMLoadFloat3(&m_WorldAxis[AT_Z]);
 
-			vPos -= vWorldX * 0.01f;
+			vPos -= vWorldX * m_fSmooth * fTIme;
 
 			XMStoreFloat3(&m_vPos, vPos);
 		}

@@ -96,13 +96,30 @@ HRESULT CGameEngine::CreateCamera()
 		return E_FAIL;
 
 	pCamera->SetPosition(XMFLOAT3(0.f, 3.f, -3.f));
-	pCamera->SetLens(_SINGLE(CMainWnd)->GetClientWidth(), _SINGLE(CMainWnd)->GetClientHeight(), PI * 0.25f,
-		_SINGLE(CMainWnd)->GetAspectRatio(), 1.f, 1000.f);
+	pCamera->SetLens(
+		(float)_SINGLE(CMainWnd)->GetClientWidth(), 
+		(float)_SINGLE(CMainWnd)->GetClientHeight(), 
+		PI * 0.25f,	_SINGLE(CMainWnd)->GetAspectRatio(), 
+		1.f, 1000.f);
 	pCamera->LookAt(XMFLOAT3(0.f, 3.f, -30.f), XMFLOAT3(0.f, 0.f, 0.f), XMFLOAT3(0.f, 1.f, 0.f));
-	//pCamera->SetLookObject(_SINGLE(CObjectManager)->FindObject(L"Player"));
+	pCamera->SetLookObject(_SINGLE(CObjectManager)->FindObject(L"Player"));
 
 	_SINGLE(CCameraManager)->SetCurrentCamera(pCamera);
 
+	//테스트용 서브 카메라 생성
+#if defined(DEBUG) | defined(_DEBUG)
+	CCamera* pSubCamera = _SINGLE(CCameraManager)->CreateCamera(L"SubCamera");
+	if(!pSubCamera )
+		return E_FAIL;
+
+	pSubCamera ->SetPosition(XMFLOAT3(0.f, 10.f, -10.f) );
+	pSubCamera ->SetLens(
+		(float)_SINGLE(CMainWnd)->GetClientWidth(), 
+		(float)_SINGLE(CMainWnd)->GetClientHeight(), 
+		PI * 0.25f,	_SINGLE(CMainWnd)->GetAspectRatio(), 
+		1.f, 1000.f);
+	pSubCamera ->LookAt(XMFLOAT3(0.f, 10.f, -10.f), XMFLOAT3(0.f, 0.f, 0.f), XMFLOAT3(0.f, 1.f, 0.f));
+#endif
 	return S_OK;
 }
 
@@ -165,16 +182,17 @@ HRESULT CGameEngine::CreateLight()
 	return S_OK;
 }
 
-void CGameEngine::Input()
+void CGameEngine::Input(float fTime)
 {
 	_SINGLE(CKeyManager)->SetKeyState();
-	_SINGLE(CObjectManager)->Input();
+	_SINGLE(CObjectManager)->Input(fTime);
+	_SINGLE(CCameraManager)->Input(fTime);
 }
 
-void CGameEngine::Update(const float& fTime)
+void CGameEngine::Update(float fTime)
 {
 	_SINGLE(CKeyManager)->SetKeyState();
-	_SINGLE(CCameraManager)->Update();
+	_SINGLE(CCameraManager)->Update(fTime);
 	_SINGLE(CObjectManager)->Update(fTime);
 }
 

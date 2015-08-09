@@ -1,4 +1,5 @@
 #include "CameraManager.h"
+#include "KeyManager.h"
 #include "Camera.h"
 
 
@@ -59,7 +60,7 @@ void CCameraManager::SetLens(const float& fWidth, const float& fHeight, const fl
 	m_pCurCamera->SetLens(fWidth, fHeight, fFovY, fAspect, fZn, fZf);
 }
 
-void CCameraManager::Update()
+void CCameraManager::Update(float fTime)
 {
 	if(!m_pCurCamera)
 		return;
@@ -67,12 +68,35 @@ void CCameraManager::Update()
 	m_pCurCamera->Update();
 }
 
-void CCameraManager::Input()
+void CCameraManager::Input(float fTime)
 {
+#if defined(DEBUG) | defined(_DEBUG)
+	//테스트용 서브 카메라 전환.(메인 카메라로 시작하는 것을 전제.)
+	const KEYINFO* pKey = NULL;
+	pKey = _SINGLE(CKeyManager)->GetKey(KEY_VKSPACE);
+	if(pKey)
+	{
+		if(/*pKey->bDown ||*/ pKey->bPush)
+		{
+			static bool isMainCam = true;
+
+			if( isMainCam == true)
+			{
+				SetCurrentCamera( _T("SubCamera") );
+				isMainCam = false;
+			}
+			else 
+			{
+				SetCurrentCamera( _T("MainCamera") );
+				isMainCam = true;
+			}
+		}
+	}
+#endif
+
 	if(!m_pCurCamera)
 		return;
-
-	m_pCurCamera->Input();
+	m_pCurCamera->Input(fTime);
 }
 
 void CCameraManager::Clear()

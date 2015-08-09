@@ -17,6 +17,7 @@ CEntity::CEntity(void)
 	, m_strShaderKey(L"")
 	, m_eTechKey(DST_NONE)
 	, m_eCam(CAM_PERSPECTIVE)
+	, m_fSmooth(10.0f)
 {
 	m_vecPass.reserve(5);
 }
@@ -83,7 +84,7 @@ bool CEntity::Init()
 	return true;
 }
 
-void CEntity::Update(const float& fTime)
+void CEntity::Update(float fTime)
 {
 	//여기서 월드행렬 설정
 	//월드행렬 만들기
@@ -93,7 +94,7 @@ void CEntity::Update(const float& fTime)
 
 }
 
-void CEntity::Input()
+void CEntity::Input(float fTime)
 {
 	
 }
