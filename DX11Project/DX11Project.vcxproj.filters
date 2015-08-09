@@ -79,6 +79,9 @@
     <Filter Include="소스 파일\DeviceResources\Mesh\Geometry\Generator">
       <UniqueIdentifier>{9ec0b638-741d-4089-8669-70bfb70397b9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\DeviceResources\Mesh\Geometry\EliipsoidGeometry">
+      <UniqueIdentifier>{07a374de-74e5-4440-b217-79bb4cd9ec9b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include.h">
@@ -162,17 +165,20 @@
     <ClInclude Include="Math.h">
       <Filter>소스 파일\Math</Filter>
     </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>소스 파일\ObjectManager\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Zombie.h">
+      <Filter>소스 파일\ObjectManager\Entity</Filter>
+    </ClInclude>
     <ClInclude Include="Terrain.h">
       <Filter>소스 파일\DeviceResources\Mesh\Geometry\Terrain</Filter>
     </ClInclude>
     <ClInclude Include="GeometryGenerator.h">
       <Filter>소스 파일\DeviceResources\Mesh\Geometry\Generator</Filter>
     </ClInclude>
-    <ClInclude Include="Zombie.h">
-      <Filter>소스 파일\ObjectManager\Entity</Filter>
-    </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>소스 파일\ObjectManager\Entity</Filter>
+    <ClInclude Include="EllipsoidGeometry.h">
+      <Filter>소스 파일\DeviceResources\Mesh\Geometry\EliipsoidGeometry</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -242,27 +248,28 @@
     <ClCompile Include="Math.cpp">
       <Filter>소스 파일\Math</Filter>
     </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>소스 파일\ObjectManager\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="Zombie.cpp">
+      <Filter>소스 파일\ObjectManager\Entity</Filter>
+    </ClCompile>
     <ClCompile Include="Terrain.cpp">
       <Filter>소스 파일\DeviceResources\Mesh\Geometry\Terrain</Filter>
     </ClCompile>
     <ClCompile Include="GeometryGenerator.cpp">
       <Filter>소스 파일\DeviceResources\Mesh\Geometry\Generator</Filter>
     </ClCompile>
-    <ClCompile Include="Zombie.cpp">
-      <Filter>소스 파일\ObjectManager\Entity</Filter>
-    </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>소스 파일\ObjectManager\Entity</Filter>
+    <ClCompile Include="EllipsoidGeometry.cpp">
+      <Filter>소스 파일\DeviceResources\Mesh\Geometry\EliipsoidGeometry</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="DefaultShader.fx">
+    <CustomBuild Include="DefaultShader.fx">
       <Filter>소스 파일\Shader</Filter>
-    </FxCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="function.fx">
+    </CustomBuild>
+    <CustomBuild Include="light.fx">
       <Filter>소스 파일\Shader</Filter>
-    </None>
+    </CustomBuild>
   </ItemGroup>
 </Project>

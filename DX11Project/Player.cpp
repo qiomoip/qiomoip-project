@@ -72,4 +72,37 @@ void CPlayer::Input(float fTIme)
 			XMStoreFloat3(&m_vPos, vPos);
 		}
 	}
+
+
+	//y축 이동 위
+	const KEYINFO* pKeyPlus = _SINGLE(CKeyManager)->GetKey(KEY_VKPGUP);
+		
+	if(pKeyPlus)
+	{
+		if(pKeyPlus->bDown || pKeyPlus->bPush)
+		{
+			XMVECTOR	vPos = XMLoadFloat3(&m_vPos);
+			XMVECTOR	vWorldY = XMLoadFloat3(&m_WorldAxis[AT_Y]);
+
+			vPos += vWorldY * m_fSmooth * fTIme;
+
+			XMStoreFloat3(&m_vPos, vPos);
+		}
+	}
+
+	//y축 이동 아래
+	const KEYINFO* pKeyMinus = _SINGLE(CKeyManager)->GetKey(KEY_VKINSERT);
+		
+	if(pKeyMinus)
+	{
+		if(pKeyMinus->bDown || pKeyMinus->bPush)
+		{
+			XMVECTOR	vPos = XMLoadFloat3(&m_vPos);
+			XMVECTOR	vWorldY = XMLoadFloat3(&m_WorldAxis[AT_Y]);
+
+			vPos -= vWorldY * m_fSmooth * fTIme;
+
+			XMStoreFloat3(&m_vPos, vPos);
+		}
+	}
 }

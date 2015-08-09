@@ -22,7 +22,7 @@ void CTerrain::Init()
 
 void CTerrain::Render(CShader* pShader, const TECH_TYPE& eTech, const UINT& uPass)
 {
-	UINT stride = sizeof(Vertex);
+	UINT stride = sizeof(VERTEXTEX);
     UINT offset = 0;
 
 	ID3D11InputLayout* pInputLayout = pShader->GetInputLayout(m_eInputLayout);
@@ -57,7 +57,7 @@ void CTerrain::BuildGeometryBuffers()
 	// sandy looking beaches, grassy low hills, and snow mountain peaks.
 	//
 
-	std::vector<Vertex> vertices(grid.Vertices.size());
+	std::vector<VERTEXTEX> vertices(grid.Vertices.size());
 	for(size_t i = 0; i < grid.Vertices.size(); ++i)
 	{
 		XMFLOAT3 p = grid.Vertices[i].Position;
@@ -65,38 +65,40 @@ void CTerrain::BuildGeometryBuffers()
 		p.y = 0.f/*GetHeight(p.x, p.z)*/;
 
 		vertices[i].vPos   = p;
+		vertices[i].vNormal = grid.Vertices[i].Normal;
+		vertices[i].vTex = grid.Vertices[i].TexC;
 		
-		// Color the vertex based on its height.
-		if( p.y < -10.0f )
-		{
-			// Sandy beach color.
-			vertices[i].vColor = XMFLOAT4(1.0f, 0.96f, 0.62f, 1.0f);
-		}
-		else if( p.y < 5.0f )
-		{
-			// Light yellow-green.
-			vertices[i].vColor = XMFLOAT4(0.48f, 0.77f, 0.46f, 1.0f);
-		}
-		else if( p.y < 12.0f )
-		{
-			// Dark yellow-green.
-			vertices[i].vColor = XMFLOAT4(0.1f, 0.48f, 0.19f, 1.0f);
-		}
-		else if( p.y < 20.0f )
-		{
-			// Dark brown.
-			vertices[i].vColor = XMFLOAT4(0.45f, 0.39f, 0.34f, 1.0f);
-		}
-		else
-		{
-			// White snow.
-			vertices[i].vColor = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
-		}
+	//	// Color the vertex based on its height.
+	//	if( p.y < -10.0f )
+	//	{
+	//		// Sandy beach color.
+	//		vertices[i].vColor = XMFLOAT4(1.0f, 0.96f, 0.62f, 1.0f);
+	//	}
+	//	else if( p.y < 5.0f )
+	//	{
+	//		// Light yellow-green.
+	//		vertices[i].vColor = XMFLOAT4(0.48f, 0.77f, 0.46f, 1.0f);
+	//	}
+	//	else if( p.y < 12.0f )
+	//	{
+	//		// Dark yellow-green.
+	//		vertices[i].vColor = XMFLOAT4(0.1f, 0.48f, 0.19f, 1.0f);
+	//	}
+	//	else if( p.y < 20.0f )
+	//	{
+	//		// Dark brown.
+	//		vertices[i].vColor = XMFLOAT4(0.45f, 0.39f, 0.34f, 1.0f);
+	//	}
+	//	else
+	//	{
+	//		// White snow.
+	//		vertices[i].vColor = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+	//	}
 	}
 
     D3D11_BUFFER_DESC vbd;
     vbd.Usage = D3D11_USAGE_IMMUTABLE;
-	vbd.ByteWidth = sizeof(Vertex) * grid.Vertices.size();
+	vbd.ByteWidth = sizeof(VERTEXTEX) * grid.Vertices.size();
     vbd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
     vbd.CPUAccessFlags = 0;
     vbd.MiscFlags = 0;

@@ -148,19 +148,30 @@ HRESULT CGameEngine::CreateLight()
 	DIRECTIONALLIGHT DirLight;
 
 	DirLight.vDir = _SINGLE(CCameraManager)->GetCurCamera()->GetLook();
-	DirLight.vDiffuse = XMFLOAT4(1.f, 1.f, 1.f, 1.0f);
-	DirLight.vAmbient = XMFLOAT4(0.5f, 0.5f, 0.5f, 1.0f);
+	DirLight.vDiffuse = XMFLOAT4(0.5f, 0.5f, 0.5f, 1.0f);
+	DirLight.vAmbient = XMFLOAT4(0.2f, 0.2f, 0.2f, 1.0f);
 	DirLight.vSpecular = DirLight.vAmbient;
 
 	
 
 	POINTLIGHT PointLight;
 	PointLight.vPos = XMFLOAT3(0.f, 0.f, -2.f);
-	PointLight.vDiffuse = XMFLOAT4(0.f, 1.f, 0.f, 1.f);
-	PointLight.vAmbient = PointLight.vDiffuse;
-	PointLight.vSpecular = PointLight.vDiffuse;
-	PointLight.vAtt = XMFLOAT3(0.f, 1.f, 0.f);
+	PointLight.vAmbient  = XMFLOAT4(0.3f, 0.3f, 0.3f, 1.0f);
+	PointLight.vDiffuse  = XMFLOAT4(0.7f, 0.7f, 0.7f, 1.0f);
+	PointLight.vSpecular = XMFLOAT4(0.7f, 0.7f, 0.7f, 1.0f);
+	PointLight.vAtt      = XMFLOAT3(0.0f, 0.f, 1.0f);
 	PointLight.fRange = 10.f;
+
+	SPOTLIGHT SpotLight;
+	SpotLight.fRange = 10.f;
+	SpotLight.vPos = XMFLOAT3(0.f, 3.f, -2.f);
+	SpotLight.vDiffuse = XMFLOAT4(0.f, 1.f, 0.f, 1.f);
+	SpotLight.vAmbient = SpotLight.vDiffuse;
+	SpotLight.vSpecular = XMFLOAT4(1.f, 1.f, 1.f, 1.f);
+	SpotLight.vAtt = XMFLOAT3(0.f, 0.f, 1.f);
+	SpotLight.fRange = 5.f;
+	SpotLight.vDir = XMFLOAT3(0.f, -1.f, 0.f);
+	SpotLight.fSpot = 8.f;
 
 
 	MATERIAL Material;
@@ -173,6 +184,7 @@ HRESULT CGameEngine::CreateLight()
 
 	pShader->GetValue("gDirLight")->SetRawValue(&DirLight, 0, sizeof(DirLight));
 	pShader->GetValue("gPointLight")->SetRawValue(&PointLight, 0, sizeof(PointLight));;
+	//pShader->GetValue("gSpotLight")->SetRawValue(&SpotLight, 0, sizeof(SpotLight));
 	pShader->GetValue("material")->SetRawValue(&Material, 0, sizeof(Material));;
 
 	XMFLOAT3 vEye = _SINGLE(CCameraManager)->GetCurCamera()->GetPosition();

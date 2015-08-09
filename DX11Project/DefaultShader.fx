@@ -1,4 +1,4 @@
-#include "function.fx"
+#include "light.fx"
 
 cbuffer cbPerObject
 {
@@ -104,6 +104,9 @@ PS_OUT_DEFAULT LightPS(VS_OUT_LIGHT inp)
 	PS_OUT_DEFAULT outp = (PS_OUT_DEFAULT)0;
 
 	float4 texColor = g_texDifuseMap.Sample(SamplerLinear, inp.vTex);
+
+	//outp.vColor = texColor;
+	//return outp;
 
 	inp.vNormalW = normalize(inp.vNormalW);
 

@@ -2,6 +2,7 @@
 #include "Device.h"
 #include "Shader.h"
 #include "GeometryGenerator.h"
+#include "Math.h"
 
 const int VERTEXCOUNT = 24;
 const int INDEXCOUNT = 36;
@@ -23,47 +24,7 @@ void CBoxGeometry::Init()
 	CreateVertexBuffer(box);
 	CreateIndexBuffer(box);
 
-	//GeometryGenerator::MeshData box;
-
-	//GeometryGenerator geoGen;
-	//geoGen.CreateBox(1.0f, 1.0f, 1.0f, box);
-
-	//std::vector<VERTEXTEX> vertices(VERTEXCOUNT);
-
-	//UINT k = 0;
-	//for(size_t i = 0; i < box.Vertices.size(); ++i, ++k)
-	//{
-	//	vertices[k].vPos    = box.Vertices[i].Position;
-	//	vertices[k].vNormal = box.Vertices[i].Normal;
-	//	vertices[k].vTex    = box.Vertices[i].TexC;
-	//}
-
- //   D3D11_BUFFER_DESC vbd;
-	//vbd.ByteWidth = sizeof(VERTEXTEX) * VERTEXCOUNT;
-	//vbd.Usage = D3D11_USAGE_DYNAMIC;
-	//vbd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-	//vbd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
- //   vbd.MiscFlags = 0;
-
- //   D3D11_SUBRESOURCE_DATA vinitData;
- //   vinitData.pSysMem = &vertices[0];
-	//HR(_DEVICE()->CreateBuffer(&vbd, &vinitData, &m_pVB));
-
-	//std::vector<UINT> indices;
-	//indices.insert(indices.end(), box.Indices.begin(), box.Indices.end());
-
-	//D3D11_BUFFER_DESC ibd;
- //   ibd.Usage = D3D11_USAGE_DYNAMIC;
-	//ibd.ByteWidth = sizeof(UINT) * INDEXCOUNT;
-	//ibd.BindFlags = D3D11_BIND_INDEX_BUFFER;
-	//ibd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
- //   ibd.MiscFlags = 0;
-	//ibd.StructureByteStride = 0;
- //   D3D11_SUBRESOURCE_DATA iinitData;
- //   iinitData.pSysMem = &indices[0];
- //   HR(_DEVICE()->CreateBuffer(&ibd, &iinitData, &m_pIB));
-
-	CaculateNormal();
+//	CaculateNormal();
 }
 
 
@@ -175,66 +136,67 @@ void CBoxGeometry::Render(CShader* pShader, const TECH_TYPE& eTech, const UINT& 
 	_ICONTEXT()->DrawIndexed(INDEXCOUNT, 0, 0);
 	
 }
-
-void CBoxGeometry::CaculateNormal()
-{
-	//버텍스, 인덱스 버퍼 lock
-	D3D11_MAPPED_SUBRESOURCE mappedResource;
-	D3D11_MAPPED_SUBRESOURCE mappedRes;
-	
-	_ICONTEXT()->Map(m_pVB, 0, D3D11_MAP_WRITE_NO_OVERWRITE, 0, &mappedResource);
-	_ICONTEXT()->Map(m_pIB, 0, D3D11_MAP_WRITE_NO_OVERWRITE, 0, &mappedRes);
-	
-	VERTEXTEX* pVtx = (VERTEXTEX*)mappedResource.pData;
-	UINT* pIdx = (UINT*)mappedRes.pData;
-	
-	for(int i = 0; i < 12; ++i)
-	{
-		UINT idx[3] = {0};
-		idx[0] = pIdx[i * 3 + 0];
-		idx[1] = pIdx[i * 3 + 1];
-		idx[2] = pIdx[i * 3 + 2];
-
-		VERTEXTEX v[3];
-		v[0] = pVtx[idx[0]];
-		v[1] = pVtx[idx[1]];
-		v[2] = pVtx[idx[2]];
-
-		//노멀 벡터 계산
-		
-		//면 법선 계산
-		XMVECTOR a = XMLoadFloat3(&v[0].vPos);
-		XMVECTOR b = XMLoadFloat3(&v[1].vPos);
-		XMVECTOR c = XMLoadFloat3(&v[2].vPos);
-
-		XMVECTOR e0 = b - a;
-		XMVECTOR e1 = c - a;
-		e0 = XMVector3Normalize(e0);
-		e1 = XMVector3Normalize(e1);
-		XMVECTOR vCross = XMVector3Cross(e0, e1);
-		vCross = XMVector3Normalize(vCross);
-
-		XMVECTOR vAdd[3];
-
-		vAdd[0] = vCross + XMLoadFloat3(&pVtx[idx[0]].vNormal);
-		vAdd[1] = vCross + XMLoadFloat3(&pVtx[idx[1]].vNormal);
-		vAdd[2] = vCross + XMLoadFloat3(&pVtx[idx[2]].vNormal);
-
-		XMStoreFloat3(&pVtx[idx[0]].vNormal, vAdd[0]);
-		XMStoreFloat3(&pVtx[idx[1]].vNormal, vAdd[1]);
-		XMStoreFloat3(&pVtx[idx[2]].vNormal, vAdd[2]);
-	}
-
-	for(int i = 0; i < 8; ++i)
-	{
-		XMVECTOR vCrossNormal = XMLoadFloat3(&pVtx[i].vNormal);
-		vCrossNormal = XMVector3Normalize(vCrossNormal);
-		XMStoreFloat3(&pVtx[i].vNormal, vCrossNormal);
-	}
-
-	_ICONTEXT()->Unmap(m_pVB, 0);
-	_ICONTEXT()->Unmap(m_pIB, 0);
-}
+//
+//void CBoxGeometry::CaculateNormal()
+//{
+//	//버텍스, 인덱스 버퍼 lock
+//	D3D11_MAPPED_SUBRESOURCE mappedResource;
+//	D3D11_MAPPED_SUBRESOURCE mappedRes;
+//	
+//	_ICONTEXT()->Map(m_pVB, 0, D3D11_MAP_WRITE_NO_OVERWRITE, 0, &mappedResource);
+//	_ICONTEXT()->Map(m_pIB, 0, D3D11_MAP_WRITE_NO_OVERWRITE, 0, &mappedRes);
+//	
+//	VERTEXTEX* pVtx = (VERTEXTEX*)mappedResource.pData;
+//	UINT* pIdx = (UINT*)mappedRes.pData;
+//	
+//	for(int i = 0; i < 12; ++i)
+//	{
+//		UINT idx[3] = {0};
+//		idx[0] = pIdx[i * 3 + 0];
+//		idx[1] = pIdx[i * 3 + 1];
+//		idx[2] = pIdx[i * 3 + 2];
+//
+//		VERTEXTEX v[3];
+//		v[0] = pVtx[idx[0]];
+//		v[1] = pVtx[idx[1]];
+//		v[2] = pVtx[idx[2]];
+//
+//		//노멀 벡터 계산
+//		XMVECTOR	vCross = _SINGLE(CMath)->CaculateNormal(XMLoadFloat3(&v[0].vPos), XMLoadFloat3(&v[1].vPos), XMLoadFloat3(&v[2].vPos));
+//		
+//		////면 법선 계산
+//		//XMVECTOR a = XMLoadFloat3(&v[0].vPos);
+//		//XMVECTOR b = XMLoadFloat3(&v[1].vPos);
+//		//XMVECTOR c = XMLoadFloat3(&v[2].vPos);
+//
+//		//XMVECTOR e0 = b - a;
+//		//XMVECTOR e1 = c - a;
+//		//e0 = XMVector3Normalize(e0);
+//		//e1 = XMVector3Normalize(e1);
+//		//XMVECTOR vCross = XMVector3Cross(e0, e1);
+//		//vCross = XMVector3Normalize(vCross);
+//
+//		XMVECTOR vAdd[3];
+//
+//		vAdd[0] = vCross + XMLoadFloat3(&pVtx[idx[0]].vNormal);
+//		vAdd[1] = vCross + XMLoadFloat3(&pVtx[idx[1]].vNormal);
+//		vAdd[2] = vCross + XMLoadFloat3(&pVtx[idx[2]].vNormal);
+//
+//		XMStoreFloat3(&pVtx[idx[0]].vNormal, vAdd[0]);
+//		XMStoreFloat3(&pVtx[idx[1]].vNormal, vAdd[1]);
+//		XMStoreFloat3(&pVtx[idx[2]].vNormal, vAdd[2]);
+//	}
+//
+//	for(int i = 0; i < 8; ++i)
+//	{
+//		XMVECTOR vCrossNormal = XMLoadFloat3(&pVtx[i].vNormal);
+//		vCrossNormal = XMVector3Normalize(vCrossNormal);
+//		XMStoreFloat3(&pVtx[i].vNormal, vCrossNormal);
+//	}
+//
+//	_ICONTEXT()->Unmap(m_pVB, 0);
+//	_ICONTEXT()->Unmap(m_pIB, 0);
+//}
 
 void CBoxGeometry::Clear()
 {

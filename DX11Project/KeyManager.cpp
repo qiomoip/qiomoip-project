@@ -22,7 +22,7 @@ void CKeyManager::Initialize()
 	SetKeyData(KEY_A, 'A');
 	SetKeyData(KEY_C, 'C');
 	SetKeyData(KEY_Z, 'Z');
-	SetKeyData(KEY_VKINS, VK_INSERT);
+	SetKeyData(KEY_VKINSERT, VK_INSERT);
 	SetKeyData(KEY_VKDEL, VK_DELETE);
 	SetKeyData(KEY_VKHOME, VK_HOME);
 	SetKeyData(KEY_VKEND, VK_END);

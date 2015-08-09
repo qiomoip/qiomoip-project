@@ -13,7 +13,7 @@ public:
 	void Init();
 	void CreateVertexBuffer(GeometryGenerator::MeshData& box);
 	void CreateIndexBuffer(GeometryGenerator::MeshData& box);
-	void CaculateNormal();
+	//void CaculateNormal();
 
 	void Render(CShader* pShader, const TECH_TYPE& eTech, const UINT& uPass);
 
