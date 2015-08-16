@@ -17,7 +17,8 @@ cbuffer cbPerFrame
 	float3 gEyePosW;
 };
 
-Texture2D g_texDifuseMap;
+Texture2D g_texDiffuseMap;
+TextureCube g_texCube;
 
 SamplerState SamplerLinear
 {
@@ -103,7 +104,7 @@ PS_OUT_DEFAULT LightPS(VS_OUT_LIGHT inp)
 {
 	PS_OUT_DEFAULT outp = (PS_OUT_DEFAULT)0;
 
-	float4 texColor = g_texDifuseMap.Sample(SamplerLinear, inp.vTex);
+	float4 texColor = g_texDiffuseMap.Sample(SamplerLinear, inp.vTex);
 
 	//outp.vColor = texColor;
 	//return outp;
@@ -137,6 +138,7 @@ PS_OUT_DEFAULT LightPS(VS_OUT_LIGHT inp)
 	specular += S;
 
 	outp.vColor = texColor * (ambient + diffuse) + specular;
+
 	outp.vColor.a = material.vDiff.a;
 
 	//outp.vColor = float4(0.f, 0.f, 0.f, 1.f);
@@ -145,8 +147,63 @@ PS_OUT_DEFAULT LightPS(VS_OUT_LIGHT inp)
 	return outp;
 }
 
+PS_OUT_DEFAULT SkyReflectPS(VS_OUT_LIGHT inp)
+{
+	PS_OUT_DEFAULT outp = (PS_OUT_DEFAULT)0;
+
+	float4 texColor = g_texDiffuseMap.Sample(SamplerLinear, inp.vTex);
+
+	//outp.vColor = texColor;
+	//return outp;
+
+	inp.vNormalW = normalize(inp.vNormalW);
+
+	float3 toEyeW = normalize(gEyePosW - inp.vPosW);
+
+	float4 ambient = float4(0.0f, 0.0f, 0.0f, 0.0f);
+	float4 diffuse = float4(0.0f, 0.0f, 0.0f, 0.0f);
+	float4 specular = float4(0.0f, 0.0f, 0.0f, 0.0f);
+
+	float4 A, D, S;
+
+	ComputeDirectionalLight(material, gDirLight, inp.vNormalW, toEyeW, A, D, S);
+
+	ambient += A;
+	diffuse += D;
+	specular += S;
+
+	ComputePointLight(material, gPointLight, inp.vPosW, inp.vNormalW, toEyeW, A, D, S);
+
+	ambient += A;
+	diffuse += D;
+	specular += S;
+
+	ComputeSpotLight(material, gSpotLight, inp.vPosW, inp.vNormalW, toEyeW, A, D, S);
+
+	ambient += A;
+	diffuse += D;
+	specular += S;
+
+	outp.vColor = texColor * (ambient + diffuse) + specular;
+
+	float3 incident = -toEyeW;
+	float3 vReflect = reflect(incident, inp.vNormalW);
+	float4 vReflectColor = g_texCube.Sample(SamplerLinear, vReflect);
+
+	outp.vColor += material.vReflect * vReflectColor;
+
+
+	outp.vColor.a = material.vDiff.a;
+
+	//outp.vColor = float4(0.f, 0.f, 0.f, 1.f);
+	//outp.vColor = D;
+	//outp.vColor.a = 1.f;
+	return outp;
+}
+
+
 //
-TextureCube g_texCube;
+
 
 SamplerState smTriLinearSam
 {
@@ -221,7 +278,7 @@ technique11 DefaultTech
 	{
 		SetVertexShader( CompileShader( vs_5_0, LightVS() ) );
 		SetGeometryShader( NULL );
-		SetPixelShader( CompileShader( ps_5_0, LightPS() ) );
+		SetPixelShader( CompileShader( ps_5_0, SkyReflectPS() ) );
 	}
 
 	pass SkyPass
@@ -232,6 +289,13 @@ technique11 DefaultTech
 
 		SetRasterizerState(NoCull);
 		SetDepthStencilState(LessEqualDSS, 0);
+	}
+
+	pass SkyReflectPass
+	{
+		SetVertexShader( CompileShader( vs_5_0, LightVS() ) );
+		SetGeometryShader( NULL );
+		SetPixelShader( CompileShader( ps_5_0, LightPS() ) );
 	}
 }
 

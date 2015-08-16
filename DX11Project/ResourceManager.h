@@ -15,9 +15,9 @@ private:
 	map<tstring, CTexture*>	m_mapTexture;
 
 public:
-	CBaseMesh* CreateRenderer(const MESH_TYPE& eMesh, const GEOMETRY_TYPE& eGeo, const LPCTSTR pFileName, tstring strTextureName = L"");
+	CBaseMesh* CreateRenderer(const MESH_TYPE& eMesh, const GEOMETRY_TYPE& eGeo, const LPCTSTR pFileName, const LPCSTR pShaderTextureName, tstring strTextureName = L"");
 	CGeometry* CreateGeometry(const GEOMETRY_TYPE& eGeo, const LPCTSTR pFileName);
-	CTexture* CreateTexture(tstring strTextureName);
+	CTexture* CreateTexture(const LPCSTR pShaderTextureName, tstring strTextureName);
 	void Clear();
 
 private:

@@ -16,7 +16,7 @@ CStaticMesh::~CStaticMesh(void)
 }
 
 
-void CStaticMesh::Init(const GEOMETRY_TYPE& eMesh, const LPCTSTR pFileName, tstring strTextureName)
+void CStaticMesh::Init(const GEOMETRY_TYPE& eMesh, const LPCTSTR pFileName, const LPCSTR pShaderTextureName, tstring strTextureName)
 {
 	//여기서 지오메트리, 텍스처 생성
 	//지오메트리 로딩할 때 텍스처 네임들이 있다면
@@ -28,7 +28,7 @@ void CStaticMesh::Init(const GEOMETRY_TYPE& eMesh, const LPCTSTR pFileName, tstr
 
 	if(_tcscmp(strTextureName.c_str(), L""))
 	{
-		m_pTexture = _SINGLE(CResourceManager)->CreateTexture(strTextureName);
+		m_pTexture = _SINGLE(CResourceManager)->CreateTexture(pShaderTextureName, strTextureName);
 	}
 }
 

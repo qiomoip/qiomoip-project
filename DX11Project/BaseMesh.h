@@ -11,7 +11,7 @@ protected:
 	CGeometry*	m_pGeometry;
 
 public:
-	virtual void Init(const GEOMETRY_TYPE& eMesh, const LPCTSTR pFileName, tstring strTextureName)PURE;
+	virtual void Init(const GEOMETRY_TYPE& eMesh, const LPCTSTR pFileName, const LPCSTR pShaderTextureName, tstring strTextureName)PURE;
 	virtual void Render(CShader* pShader, const TECH_TYPE& eTech, const INPUTLAYOUT_TYPE& eInputLayout, const UINT& uPass)PURE;
 
 	void SetGeometry(CGeometry* pGeometry);

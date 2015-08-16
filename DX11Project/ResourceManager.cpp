@@ -16,7 +16,7 @@ CResourceManager::~CResourceManager(void)
 	Clear();
 }
 
-CBaseMesh*	CResourceManager::CreateRenderer(const MESH_TYPE& eRender, const GEOMETRY_TYPE& eMesh, const LPCTSTR pFileName, tstring strTextureName)
+CBaseMesh*	CResourceManager::CreateRenderer(const MESH_TYPE& eRender, const GEOMETRY_TYPE& eMesh, const LPCTSTR pFileName, const LPCSTR pShaderTextureName, tstring strTextureName)
 {
 	//
 	CBaseMesh* pMesh = NULL;
@@ -29,7 +29,7 @@ CBaseMesh*	CResourceManager::CreateRenderer(const MESH_TYPE& eRender, const GEOM
 		break;
 	}
 
-	pMesh->Init(eMesh, pFileName, strTextureName);
+	pMesh->Init(eMesh, pFileName, pShaderTextureName, strTextureName);
 
 	return pMesh;
 
@@ -70,7 +70,7 @@ CGeometry* CResourceManager::CreateGeometry(const GEOMETRY_TYPE& eGeo, const LPC
 	return pGeometry;
 }
 
-CTexture* CResourceManager::CreateTexture(tstring strTextureName)
+CTexture* CResourceManager::CreateTexture(const LPCSTR pShaderTextureName, tstring strTextureName)
 {
 	CTexture* pTexture = new CTexture;
 	TCHAR szFileName[MAX_PATH] = {0};
@@ -119,6 +119,8 @@ CTexture* CResourceManager::CreateTexture(tstring strTextureName)
 	{
 		pTexture->CreateTexture(szFileName, szTypeName, false);
 	}
+
+	pTexture->SetShaderTextureName(pShaderTextureName);
 
 	m_mapTexture.insert(map<tstring, CTexture*>::value_type(strTextureName, pTexture));
 	return pTexture;

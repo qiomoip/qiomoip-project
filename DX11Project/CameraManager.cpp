@@ -66,6 +66,13 @@ void CCameraManager::Update(float fTime)
 		return;
 
 	m_pCurCamera->Update(fTime);
+
+	//map<tstring, CCamera*>::iterator iter = m_mapCamera.begin();
+
+	//for(; iter != m_mapCamera.end(); ++iter)
+	//{
+	//	iter->second->Update(fTime);
+	//}
 }
 
 void CCameraManager::Input()

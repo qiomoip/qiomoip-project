@@ -10,6 +10,7 @@ CTexture::CTexture(void)
 	, m_pTimer(NULL)
 	, m_fElapsedTime(0.f)
 	, m_iMaxCount(0)
+	, m_pShaderTexName(NULL)
 {
 	m_vecTexInfo.reserve(10);
 }
@@ -144,8 +145,12 @@ void CTexture::SetTexture(CShader* pShader)
 	//{
 	//	m_iFrame = 120;
 	//}
-	pShader->GetShaderRes("g_texDifuseMap")->SetResource(m_vecTexInfo[m_iFrame]->pShaderRes);
-	pShader->GetShaderRes("g_texCube")->SetResource(m_vecTexInfo[m_iFrame]->pShaderRes);
+	pShader->GetShaderRes(m_pShaderTexName)->SetResource(m_vecTexInfo[m_iFrame]->pShaderRes);
+}
+
+void CTexture::SetShaderTextureName(const LPCSTR pShaderTexName)
+{
+	m_pShaderTexName = pShaderTexName;
 }
 
 void CTexture::AddFrame()

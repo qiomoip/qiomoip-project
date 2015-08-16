@@ -14,7 +14,7 @@ private:
 public:
 	CEntity* CreateObject(const RENDER_TYPE& eRender, const ENTITY_TYPE& eEntity, 
 		const MESH_TYPE& eMesh, const GEOMETRY_TYPE& eGeo, const INPUTLAYOUT_TYPE& eInputLayout,
-		const tstring& strEntityKey, const tstring& strTextureName = L"", const LPCTSTR pFileName = NULL);
+		const tstring& strEntityKey, const tstring& strTextureName = L"", const LPCSTR pTextureName = "g_texDiffuseMap", const LPCTSTR pFileName = NULL);
 	CEntity* FindObject(const tstring& strKey);
 	void DeleteObject(const tstring& strKey);
 	void Input();

@@ -22,7 +22,7 @@ private:
 	CTexture*	m_pTexture;
 
 public:
-	void Init(const GEOMETRY_TYPE& eMesh, const LPCTSTR pFileName, tstring strTextureName);
+	void Init(const GEOMETRY_TYPE& eMesh, const LPCTSTR pFileName, const LPCSTR pShaderTextureName, tstring strTextureName);
 
 	void Render(CShader* pShader, const TECH_TYPE& eTech, const INPUTLAYOUT_TYPE& eInputLayout, const UINT& uPass);
 

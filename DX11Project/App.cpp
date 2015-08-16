@@ -2,6 +2,7 @@
 #include "Timer.h"
 #include "Device.h"
 #include "MainWnd.h"
+#include "Debug.h"
 
 CApp* g_pApp = NULL;
 
@@ -84,6 +85,11 @@ int CApp::Run()
 
 bool CApp::Init(const int& iWidth, const int& iHeight)
 {
+	#ifdef _DEBUG || DEBUG
+	_SINGLE(CDebug)->Init();
+	_SINGLE(CDebug)->CreateLogWindow();
+#endif
+
 	m_iClientWidth = iWidth;
 	m_iClientHeight = iHeight;
 
@@ -92,6 +98,7 @@ bool CApp::Init(const int& iWidth, const int& iHeight)
 	m_pMainTimer->Init();
 
 	m_pMainWnd = _SINGLE(CMainWnd);
+
 
 	if(!m_pMainWnd->Init(m_iClientWidth, m_iClientHeight))
 		return false;

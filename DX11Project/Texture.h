@@ -14,11 +14,14 @@ private:
 	
 	CTimer*				m_pTimer;
 	float				m_fElapsedTime;
+	LPCSTR				m_pShaderTexName;
 public:
 	HRESULT CreateTexture(const LPCWSTR pFileName, const LPCWSTR pFileType, const bool& bMulti = false);
 	TEXINFO* CreateShaderResourceViewFromFile(LPCWSTR pFileName, LPCWSTR pFileType, const int& idx = 0);
 
+
 	void SetTexture(CShader* pShader);
+	void SetShaderTextureName(const LPCSTR pShaderTexName);
 	void AddFrame();
 	void ResetFrame();
 	int GetTextureCnt() const;
