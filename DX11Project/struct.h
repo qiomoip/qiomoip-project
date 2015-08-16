@@ -146,3 +146,11 @@ typedef struct _tagTexture
 	tstring			strTextureName;
 	int				iFrame;		//텍스처 애니메이션을 위한 프레임 번호
 }TEXINFO;
+
+typedef struct _tagInput
+{
+	XMFLOAT3		fMove;
+	XMFLOAT3		fAngle;
+	float			fMoveSpeed;
+	float			fRotateSpeed;
+}INPUTINFO;

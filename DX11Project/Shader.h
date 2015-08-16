@@ -3,7 +3,7 @@
 
 class CShader
 {
-private:
+protected:
 	ID3DX11Effect* m_pFX;
 	vector<ID3DX11EffectTechnique*> m_vecTech;
 	vector<ID3D11InputLayout*>		m_vecInputLayout;
@@ -12,7 +12,7 @@ public:
 	HRESULT Init(const LPCTSTR pFileName);
 	HRESULT CreateEffect(const LPCTSTR pFileName);
 	void CreateTech();
-	HRESULT CreateInputLayout();
+	virtual HRESULT CreateInputLayout()PURE;
 	HRESULT InitInputLayout(const D3D11_INPUT_ELEMENT_DESC* pDesc,
 						const UINT& numElements,
 						const TECH_TYPE& eTech,

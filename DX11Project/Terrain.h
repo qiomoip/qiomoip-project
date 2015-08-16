@@ -15,7 +15,7 @@ public:
 	~CTerrain(void);
 
 	virtual void Init();
-	virtual void Render(CShader* pShader, const TECH_TYPE& eTech, const UINT& uPass);
+	virtual void Render(CShader* pShader, const TECH_TYPE& eTech, const INPUTLAYOUT_TYPE& eInputLayout, const UINT& uPass);
 
 	void BuildGeometryBuffers();
 };

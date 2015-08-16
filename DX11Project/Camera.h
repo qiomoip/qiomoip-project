@@ -28,13 +28,12 @@ private:
 	CEntity*	m_pLookObject;
 
 	XMFLOAT3	m_vDest;
-
-	//카메라이동, 회전 속도 값.
-	float		m_fSmooth;
+	//키입력에 사용할 변수(이동, 회전, 속도)
+	INPUTINFO	m_tInputInfo;
 
 public:
 	virtual void		Init();
-	virtual void		Update();
+	virtual void		Update(float fTime);
 	virtual void		Input(float fTime);
 
 	//세계공간 카메라 위치를 조회
@@ -80,10 +79,12 @@ public:
 	void		SetPosition(const float& fX, const float& fY, const float& fZ);
 	void		SetPosition(const XMFLOAT3& vPos);
 
-	//카메라 d만큼 횡이동, 축이동
+	//카메라 d만큼 횡이동
 	void		Strafe(const float& fDist);
+	//카메라 d만큼 축이동
 	void		Walk(const float& fDist);
-
+	//카메라 d만큼 상승
+	void		Jump(const float& fDist);
 	//카메라 회전
 	//X축 회전
 	void		Pitch(const float& fAngle);

@@ -9,22 +9,39 @@ enum ENTITY_TYPE
 	ET_WAVES,
 	ET_PLAYER,
 	ET_ZOMBIE,
+	ET_ENVIRONMENT,
 	ET_MAX,
 };
 
+enum SHADER_TYPE
+{
+	SHADER_NONE,
+	SHADER_DEFAULT,
+	SHADER_MAX,
+};
 
 enum TECH_TYPE
 {
 	DST_NONE = -1,
-	DST_DEFAULT,
-	DST_MAX,
+
+	//DefaultShaderType
+	DST_DEFAULT = 0,
+
+	////SkyShaderType
+	//SST_SKY = 0,	
+
+	ST_MAX,
 };
+
 
 enum PASS_TYPE
 {
 	//TechKey_Pass
 	DEFAULT_COLOR,
 	DEFAULT_LIGHT,
+	DEFAULT_SKY,
+
+	//SKY_CUBE = 0,
 	DPT_MAX,
 };
 
@@ -32,8 +49,9 @@ enum PASS_TYPE
 enum INPUTLAYOUT_TYPE
 {
 	//inputlayout_type_shaderType_TechType_PassType
-	IT_DEFAULT_DEFAULT_COLOR,
+	IT_DEFAULT_DEFAULT_COLOR = 0,
 	IT_DEFAULT_DEFAULT_LIGHT,
+	//IT_SKY_SKY_CUBE= 0,
 	IT_MAX,
 };
 
@@ -41,6 +59,7 @@ enum RENDER_TYPE
 {
 	RT_NONE = -1,
 	RT_ENTITY,
+	RT_ENVIRONMENT,
 	RT_ALPHA1,
 	RT_MAX,
 };
@@ -57,8 +76,9 @@ enum GEOMETRY_TYPE
 	GT_NONE = -1,
 	GT_STATIC,
 	GT_BOX,
-	GT_MAX,
+	GT_SPHERE,
 	GT_TERRAIN,
+	GT_MAX,
 };
 
 enum CAMERA_TYPE

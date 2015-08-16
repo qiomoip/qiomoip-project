@@ -1,5 +1,6 @@
 #include "ShaderManager.h"
-#include "Shader.h"
+//#include "SkyShader.h"
+#include "DefaultShader.h"
 
 CShaderManager::CShaderManager(void)
 {
@@ -11,30 +12,38 @@ CShaderManager::~CShaderManager(void)
 	Clear();
 }
 
-HRESULT CShaderManager::CreateShader(const tstring& strShaderKey, const LPCTSTR pFileName)
+HRESULT CShaderManager::CreateShader(const SHADER_TYPE& eShader, const LPCTSTR pFileName)
 {
-	CShader* pShader = FindShader(strShaderKey);
+	CShader* pShader = FindShader(eShader);
 
 	if(pShader)
 	{
 		return S_OK;
 	}
 
-	pShader = new CShader;
+	switch(eShader)
+	{
+	case SHADER_DEFAULT:
+		pShader = new CDefaultShader;
+		break;
+	default:
+		break;
+	}
+	
 	
 	if(FAILED(pShader->Init(pFileName)))
 	{
 		return E_FAIL;
 	}
 
-	m_mapShader.insert(map<tstring, CShader*>::value_type(strShaderKey, pShader));
+	m_mapShader.insert(map<SHADER_TYPE, CShader*>::value_type(eShader, pShader));
 
 	return S_OK;
 }
 
-CShader* CShaderManager::FindShader(const tstring& strShaderKey)
+CShader* CShaderManager::FindShader(const SHADER_TYPE& eShader)
 {
-	map<tstring, CShader*>::iterator iter = m_mapShader.find(strShaderKey);
+	map<SHADER_TYPE, CShader*>::iterator iter = m_mapShader.find(eShader);
 
 	if(iter == m_mapShader.end())
 		return NULL;

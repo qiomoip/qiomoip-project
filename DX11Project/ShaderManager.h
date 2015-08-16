@@ -8,11 +8,11 @@ class CShaderManager
 {
 	friend CSingleton;
 private:
-	map<tstring, CShader*>	m_mapShader;
+	map<SHADER_TYPE, CShader*>	m_mapShader;
 
 public:
-	HRESULT CreateShader(const tstring& strShaderKey, const LPCTSTR pFileName);
-	CShader* FindShader(const tstring& strShaderKey);
+	HRESULT CreateShader(const SHADER_TYPE& eShader, const LPCTSTR pFileName);
+	CShader* FindShader(const SHADER_TYPE& eShader);
 
 	void Clear();
 

@@ -65,7 +65,7 @@ void CCameraManager::Update(float fTime)
 	if(!m_pCurCamera)
 		return;
 
-	m_pCurCamera->Update();
+	m_pCurCamera->Update(fTime);
 }
 
 void CCameraManager::Input(float fTime)

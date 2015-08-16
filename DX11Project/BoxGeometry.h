@@ -15,7 +15,7 @@ public:
 	void CreateIndexBuffer(GeometryGenerator::MeshData& box);
 	//void CaculateNormal();
 
-	void Render(CShader* pShader, const TECH_TYPE& eTech, const UINT& uPass);
+	void Render(CShader* pShader, const TECH_TYPE& eTech, const INPUTLAYOUT_TYPE& eInputLayout, const UINT& uPass);
 
 	void Clear();
 

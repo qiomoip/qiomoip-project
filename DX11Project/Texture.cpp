@@ -145,6 +145,7 @@ void CTexture::SetTexture(CShader* pShader)
 	//	m_iFrame = 120;
 	//}
 	pShader->GetShaderRes("g_texDifuseMap")->SetResource(m_vecTexInfo[m_iFrame]->pShaderRes);
+	pShader->GetShaderRes("g_texCube")->SetResource(m_vecTexInfo[m_iFrame]->pShaderRes);
 }
 
 void CTexture::AddFrame()

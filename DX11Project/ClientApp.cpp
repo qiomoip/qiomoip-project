@@ -6,6 +6,7 @@
 
 #include "CameraManager.h"
 
+
 CClientApp::CClientApp(HINSTANCE hInstance)
 	:CApp(hInstance)
 {
@@ -44,6 +45,15 @@ void CClientApp::Render()
 	_SINGLE(CGameEngine)->Render();
 }
 
+void CClientApp::OnMouseDown(WPARAM btnState, int x, int y)
+{
+}
+void CClientApp::OnMouseUp(WPARAM btnState, int x, int y)  
+{ 
+}
+void CClientApp::OnMouseMove(WPARAM btnState, int x, int y)
+{
+}
 void CClientApp::OnResize()
 {
 	CApp::OnResize();

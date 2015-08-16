@@ -3,6 +3,7 @@
 #include "BoxGeometry.h"
 #include "Texture.h"
 #include "Terrain.h"
+#include "SphereGeometry.h"
 
 CResourceManager::CResourceManager(void)
 {
@@ -15,7 +16,7 @@ CResourceManager::~CResourceManager(void)
 	Clear();
 }
 
-CBaseMesh*	CResourceManager::CreateRenderer(const MESH_TYPE& eRender, const GEOMETRY_TYPE& eMesh, const INPUTLAYOUT_TYPE& eInputLayout, const LPCTSTR pFileName, tstring strTextureName)
+CBaseMesh*	CResourceManager::CreateRenderer(const MESH_TYPE& eRender, const GEOMETRY_TYPE& eMesh, const LPCTSTR pFileName, tstring strTextureName)
 {
 	//
 	CBaseMesh* pMesh = NULL;
@@ -28,13 +29,13 @@ CBaseMesh*	CResourceManager::CreateRenderer(const MESH_TYPE& eRender, const GEOM
 		break;
 	}
 
-	pMesh->Init(eMesh, eInputLayout, pFileName, strTextureName);
+	pMesh->Init(eMesh, pFileName, strTextureName);
 
 	return pMesh;
 
 }
 
-CGeometry* CResourceManager::CreateGeometry(const GEOMETRY_TYPE& eGeo, const INPUTLAYOUT_TYPE& eInputLayout, const LPCTSTR pFileName)
+CGeometry* CResourceManager::CreateGeometry(const GEOMETRY_TYPE& eGeo, const LPCTSTR pFileName)
 {
 	map<GEOMETRY_TYPE, CGeometry*>::iterator iter = m_mapMesh.find(eGeo);
 
@@ -56,10 +57,13 @@ CGeometry* CResourceManager::CreateGeometry(const GEOMETRY_TYPE& eGeo, const INP
 	case GT_TERRAIN:
 		pGeometry = new CTerrain;
 		break;
+	case GT_SPHERE:
+		pGeometry = new CSphereGeometry;
+		break;
 	}
 
 	pGeometry->Init();
-	pGeometry->SetInputLayout(eInputLayout);
+	//pGeometry->SetInputLayout(eInputLayout);
 
 	m_mapMesh.insert(map<GEOMETRY_TYPE, CGeometry*>::value_type(eGeo, pGeometry));
 

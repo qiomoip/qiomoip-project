@@ -13,7 +13,6 @@ CCamera::CCamera(void)
 	, m_eCam(CAM_PERSPECTIVE)
 	, m_pLookObject(NULL)
 	, m_vDest(XMFLOAT3(0.f, 20.f, 0.f))
-	, m_fSmooth(10.f)
 {
 }
 
@@ -33,14 +32,39 @@ void CCamera::Init()
 	m_vLook.z = 1.f;
 
 	memset(m_tCam, 0, sizeof(CAMERA) * CAM_MAX);
+	memset(&m_tInputInfo, 0, sizeof(INPUTINFO) );
+	m_tInputInfo.fMoveSpeed = 25.f;
+	m_tInputInfo.fRotateSpeed = XM_PI /** 0.5f*/;
 }
 
 
-void		CCamera::Update()
+void		CCamera::Update(float fTime)
 {
 	if(m_pLookObject)
 	{
 		FollowObject();
+	}
+	else 
+	{
+		float MoveSmooth = fTime * m_tInputInfo.fMoveSpeed;
+		float RoateSmooth = fTime * m_tInputInfo.fRotateSpeed;
+
+		//이동
+		if( m_tInputInfo.fMove.x  )
+			Strafe( m_tInputInfo.fMove.x * MoveSmooth );
+		if( m_tInputInfo.fMove.y )
+			Jump( m_tInputInfo.fMove.y * MoveSmooth );
+		if( m_tInputInfo.fMove.z )
+			Walk( m_tInputInfo.fMove.z * MoveSmooth );
+
+		//회전
+		if( m_tInputInfo.fAngle.x )
+			Pitch( m_tInputInfo.fAngle.x * RoateSmooth );
+		if( m_tInputInfo.fAngle.y )
+			RotateY( m_tInputInfo.fAngle.y * RoateSmooth );
+		//입력 초기화
+		memset( &m_tInputInfo.fMove, 0, sizeof(XMFLOAT3) );
+		memset( &m_tInputInfo.fAngle, 0, sizeof(XMFLOAT3) );
 	}
 
 	UpdateViewMatrix();
@@ -54,120 +78,70 @@ void		CCamera::Input(float fTime)
 	if(pKey)
 	{
 		if(pKey->bDown || pKey->bPush)
-		{
-			XMVECTOR	vPos = XMLoadFloat3(&m_vPosition);
-			XMVECTOR	vWorldX = XMLoadFloat3(&m_vLook);
-
-			vPos += vWorldX * fTime * m_fSmooth;
-
-			XMStoreFloat3(&m_vPosition, vPos);
-		}
+			m_tInputInfo.fMove.z = 1.f;
 	}
 
 	pKey = _SINGLE(CKeyManager)->GetKey(KEY_S);
 	if(pKey)
 	{
 		if(pKey->bDown || pKey->bPush)
-		{
-			XMVECTOR	vPos = XMLoadFloat3(&m_vPosition);
-			XMVECTOR	vWorldX = XMLoadFloat3(&m_vLook);
-
-			vPos += vWorldX * (-1.f) * fTime * m_fSmooth;
-
-			XMStoreFloat3(&m_vPosition, vPos);
-		}
+			m_tInputInfo.fMove.z = -1.f;
 	}
 
 	pKey = _SINGLE(CKeyManager)->GetKey(KEY_D);
 	if(pKey)
 	{
 		if(pKey->bDown || pKey->bPush)
-		{
-			XMVECTOR	vPos = XMLoadFloat3(&m_vPosition);
-			XMVECTOR	vWorldX = XMLoadFloat3(&m_vRight);
-
-			vPos += vWorldX * fTime * m_fSmooth;
-
-			XMStoreFloat3(&m_vPosition, vPos);
-		}
+			m_tInputInfo.fMove.x = 1.f;
 	}
 
 	pKey = _SINGLE(CKeyManager)->GetKey(KEY_A);
 	if(pKey)
 	{
 		if(pKey->bDown || pKey->bPush)
-		{
-			XMVECTOR	vPos = XMLoadFloat3(&m_vPosition);
-			XMVECTOR	vWorldX = XMLoadFloat3(&m_vRight);
-
-			vPos += vWorldX * (-1.f) * fTime * m_fSmooth;
-
-			XMStoreFloat3(&m_vPosition, vPos);
-		}
+			m_tInputInfo.fMove.x = -1.f;
 	}
 
 	pKey = _SINGLE(CKeyManager)->GetKey(KEY_C);
 	if(pKey)
 	{
 		if(pKey->bDown || pKey->bPush)
-		{
-			XMVECTOR	vPos = XMLoadFloat3(&m_vPosition);
-			XMVECTOR	vWorldX = XMLoadFloat3(&m_vUp);
-
-			vPos += vWorldX * fTime * m_fSmooth;
-
-			XMStoreFloat3(&m_vPosition, vPos);
-		}
+			m_tInputInfo.fMove.y = 1.f;
 	}
 
 	pKey = _SINGLE(CKeyManager)->GetKey(KEY_Z);
 	if(pKey)
 	{
 		if(pKey->bDown || pKey->bPush)
-		{
-			XMVECTOR	vPos = XMLoadFloat3(&m_vPosition);
-			XMVECTOR	vWorldX = XMLoadFloat3(&m_vUp);
-
-			vPos += vWorldX * (-1.f) * fTime * m_fSmooth;
-
-			XMStoreFloat3(&m_vPosition, vPos);
-		}
+			m_tInputInfo.fMove.y = -1.f;
 	}
 
 	pKey = _SINGLE(CKeyManager)->GetKey(KEY_VKHOME);
 	if(pKey)
 	{
 		if(pKey->bDown || pKey->bPush)
-		{
-			Pitch( (-1.f) * fTime * XM_PI * 0.5f );
-		}
+			m_tInputInfo.fAngle.x = -1.f;
 	}
 
 	pKey = _SINGLE(CKeyManager)->GetKey(KEY_VKEND);
 	if(pKey)
 	{
 		if(pKey->bDown || pKey->bPush)
-		{
-			Pitch( (1.f) * fTime * XM_PI * 0.5f );
-		}
+			m_tInputInfo.fAngle.x = 1.f;
 	}
 
 	pKey = _SINGLE(CKeyManager)->GetKey(KEY_VKPGDN);
 	if(pKey)
 	{
 		if(pKey->bDown || pKey->bPush)
-		{
-			RotateY( (1.f) * fTime * XM_PI * 0.5f );
-		}
+			m_tInputInfo.fAngle.y = 1.f;
 	}
 
 	pKey = _SINGLE(CKeyManager)->GetKey(KEY_VKDEL);
 	if(pKey)
 	{
 		if(pKey->bDown || pKey->bPush)
-		{
-			RotateY( (-1.f) * fTime * XM_PI * 0.5f );
-		}
+			m_tInputInfo.fAngle.y = -1.f;
 	}
 }
 
@@ -351,6 +325,16 @@ void		CCamera::Walk(const float& fDist)
 
 	XMStoreFloat3(&m_vPosition, XMVectorMultiplyAdd(s, l, p));
 }
+void		CCamera::Jump(const float& fDist)
+{
+	XMVECTOR s = XMVectorReplicate(fDist);	//s == (fDist, fDist, fDist);
+	XMVECTOR u = XMLoadFloat3(&m_vUp);
+	XMVECTOR p = XMLoadFloat3(&m_vPosition);
+
+	XMStoreFloat3(&m_vPosition, XMVectorMultiplyAdd(s, u, p));
+}
+
+
 //카메라 회전
 void		CCamera::Pitch(const float& fAngle)
 {

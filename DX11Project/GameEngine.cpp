@@ -65,10 +65,25 @@ HRESULT CGameEngine::CreateEntity()
 		return false;
 	}
 
-	pEntity->SetShaderInfo(L"DefaultShader", DST_DEFAULT);
+	pEntity->SetShaderInfo(SHADER_DEFAULT, DST_DEFAULT);
 	pEntity->PushPass(DEFAULT_LIGHT);
 	
 	m_listRender.push_back(pEntity);
+
+
+	CEntity* pZombie = _SINGLE(CObjectManager)->CreateObject(
+		RT_ENTITY, ET_ZOMBIE, MT_STATIC, GT_BOX, IT_DEFAULT_DEFAULT_LIGHT,
+		L"Zombie", L"Resource\\Texture\\WoodCrate01.dds");
+
+	if(!pZombie)
+	{
+		return false;
+	}
+	pZombie->SetPos(XMFLOAT3(3.f, 0.f, -3.f) );
+	pZombie->SetShaderInfo(SHADER_DEFAULT, DST_DEFAULT);
+	pZombie->PushPass(DEFAULT_LIGHT);
+	
+	m_listRender.push_back(pZombie);
 
 
 	CEntity* pTerrain = _SINGLE(CObjectManager)->CreateObject(
@@ -80,10 +95,26 @@ HRESULT CGameEngine::CreateEntity()
 		return false;
 	}
 
-	pTerrain->SetShaderInfo(L"DefaultShader", DST_DEFAULT);
+	pTerrain->SetShaderInfo(SHADER_DEFAULT, DST_DEFAULT);
 	pTerrain->PushPass(DEFAULT_LIGHT);
 	
 	m_listRender.push_back(pTerrain);
+
+	CEntity* pSkySphere = _SINGLE(CObjectManager)->CreateObject(
+		RT_ENVIRONMENT, ET_ENVIRONMENT, MT_STATIC, GT_SPHERE, IT_DEFAULT_DEFAULT_LIGHT,
+		L"Environment", _T("Resource\\Texture\\snowcube1024.dds") );
+
+	if(!pSkySphere)
+	{
+		return false;
+	}
+
+	pSkySphere->SetScale(500.f, 500.f, 500.f);
+
+	pSkySphere->SetShaderInfo(SHADER_DEFAULT, DST_DEFAULT);
+	pSkySphere->PushPass((PASS_TYPE)2);
+	
+	m_listRender.push_back(pSkySphere);
 
 	return true;
 }
@@ -126,7 +157,7 @@ HRESULT CGameEngine::CreateCamera()
 HRESULT CGameEngine::CreateShader()
 {
 	//½¦ÀÌ´õ¸¦ ¸¸µë¹Ì´Ù
-	_SINGLE(CShaderManager)->CreateShader(L"DefaultShader", L"DefaultShader.fx");
+	_SINGLE(CShaderManager)->CreateShader(SHADER_DEFAULT, L"DefaultShader.fx");
 
 	/*
 	ID3DX11EffectScalarVariable* FogStart =  _SINGLE(CShaderManager)->FindShader(
@@ -155,23 +186,23 @@ HRESULT CGameEngine::CreateLight()
 	
 
 	POINTLIGHT PointLight;
-	PointLight.vPos = XMFLOAT3(0.f, 0.f, -2.f);
+	PointLight.vPos = XMFLOAT3(-3.f, 3.f, -2.f);
 	PointLight.vAmbient  = XMFLOAT4(0.3f, 0.3f, 0.3f, 1.0f);
 	PointLight.vDiffuse  = XMFLOAT4(0.7f, 0.7f, 0.7f, 1.0f);
 	PointLight.vSpecular = XMFLOAT4(0.7f, 0.7f, 0.7f, 1.0f);
 	PointLight.vAtt      = XMFLOAT3(0.0f, 0.f, 1.0f);
-	PointLight.fRange = 10.f;
+	PointLight.fRange = 5.f;
 
 	SPOTLIGHT SpotLight;
-	SpotLight.fRange = 10.f;
-	SpotLight.vPos = XMFLOAT3(0.f, 3.f, -2.f);
+	//SpotLight.fRange = 10.f;
+	SpotLight.vPos = XMFLOAT3(3.f, 3.f, -2.f);
 	SpotLight.vDiffuse = XMFLOAT4(0.f, 1.f, 0.f, 1.f);
 	SpotLight.vAmbient = SpotLight.vDiffuse;
 	SpotLight.vSpecular = XMFLOAT4(1.f, 1.f, 1.f, 1.f);
 	SpotLight.vAtt = XMFLOAT3(0.f, 0.f, 1.f);
-	SpotLight.fRange = 5.f;
+	SpotLight.fRange = 1000.f;
 	SpotLight.vDir = XMFLOAT3(0.f, -1.f, 0.f);
-	SpotLight.fSpot = 8.f;
+	SpotLight.fSpot = 80.f;
 
 
 	MATERIAL Material;
@@ -180,7 +211,7 @@ HRESULT CGameEngine::CreateLight()
 	Material.vAmbient = XMFLOAT4(0.5f, 0.5f, 0.5f, 1.0f);
 	Material.vSpecular = Material.vAmbient;
 
-	CShader* pShader = _SINGLE(CShaderManager)->FindShader(L"DefaultShader");
+	CShader* pShader = _SINGLE(CShaderManager)->FindShader(SHADER_DEFAULT);
 
 	pShader->GetValue("gDirLight")->SetRawValue(&DirLight, 0, sizeof(DirLight));
 	pShader->GetValue("gPointLight")->SetRawValue(&PointLight, 0, sizeof(PointLight));;

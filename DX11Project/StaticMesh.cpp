@@ -16,7 +16,7 @@ CStaticMesh::~CStaticMesh(void)
 }
 
 
-void CStaticMesh::Init(const GEOMETRY_TYPE& eMesh, const INPUTLAYOUT_TYPE& eInputLayout, const LPCTSTR pFileName, tstring strTextureName)
+void CStaticMesh::Init(const GEOMETRY_TYPE& eMesh, const LPCTSTR pFileName, tstring strTextureName)
 {
 	//여기서 지오메트리, 텍스처 생성
 	//지오메트리 로딩할 때 텍스처 네임들이 있다면
@@ -24,7 +24,7 @@ void CStaticMesh::Init(const GEOMETRY_TYPE& eMesh, const INPUTLAYOUT_TYPE& eInpu
 	//아니면 그냥 텍스처 로딩
 
 	//기하 생성
-	m_pGeometry = _SINGLE(CResourceManager)->CreateGeometry(eMesh, eInputLayout, pFileName);
+	m_pGeometry = _SINGLE(CResourceManager)->CreateGeometry(eMesh, pFileName);
 
 	if(_tcscmp(strTextureName.c_str(), L""))
 	{
@@ -33,11 +33,11 @@ void CStaticMesh::Init(const GEOMETRY_TYPE& eMesh, const INPUTLAYOUT_TYPE& eInpu
 }
 
 
-void CStaticMesh::Render(CShader* pShader, const TECH_TYPE& eTech, const UINT& uPass)
+void CStaticMesh::Render(CShader* pShader, const TECH_TYPE& eTech, const INPUTLAYOUT_TYPE& eInputLayout, const UINT& uPass)
 {
 	m_pTexture->SetTexture(pShader);
 
 	pShader->GetTech(eTech)->GetPassByIndex(uPass)->Apply(0, _ICONTEXT());
 	
-	m_pGeometry->Render(pShader, eTech, uPass);
+	m_pGeometry->Render(pShader, eTech, eInputLayout, uPass);
 }

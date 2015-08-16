@@ -30,6 +30,7 @@ CEntity* CObjectManager::CreateObject(const RENDER_TYPE& eRender, const ENTITY_T
 	case ET_TERRAIN:
 	case ET_SKULL:
 	case ET_WAVES:
+	case ET_ENVIRONMENT:
 		pEntity = new CEntity;
 		break;
 	case ET_PLAYER:
@@ -52,7 +53,7 @@ CEntity* CObjectManager::CreateObject(const RENDER_TYPE& eRender, const ENTITY_T
 		//pEntity->SetMesh();
 
 		CBaseMesh* pMesh = _SINGLE(CResourceManager)->CreateRenderer(
-			eMesh, eGeo, eInputLayout, pFileName, strTextureName);
+			eMesh, eGeo, pFileName, strTextureName);
 		pEntity->SetMesh(pMesh);
 	}
 
@@ -62,6 +63,7 @@ CEntity* CObjectManager::CreateObject(const RENDER_TYPE& eRender, const ENTITY_T
 	}
 
 	pEntity->SetEntityKey(strEntityKey);
+	pEntity->SetInputLayout(eInputLayout);
 
 	m_mapObject.insert(map<tstring, CEntity*>::value_type(strEntityKey, pEntity));
 

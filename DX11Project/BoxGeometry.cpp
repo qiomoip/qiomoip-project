@@ -117,12 +117,12 @@ void CBoxGeometry::CreateIndexBuffer(GeometryGenerator::MeshData& box)
 
 }
 
-void CBoxGeometry::Render(CShader* pShader, const TECH_TYPE& eTech, const UINT& uPass)
+void CBoxGeometry::Render(CShader* pShader, const TECH_TYPE& eTech, const INPUTLAYOUT_TYPE& eInputLayout, const UINT& uPass)
 {
 	UINT uSize =  sizeof(VERTEXTEX);
 	UINT offset = 0;
 
-	ID3D11InputLayout* pInputLayout = pShader->GetInputLayout(m_eInputLayout);
+	ID3D11InputLayout* pInputLayout = pShader->GetInputLayout(eInputLayout);
 
 	_ICONTEXT()->IASetInputLayout(pInputLayout);
 	_ICONTEXT()->IASetVertexBuffers(0, 1, &m_pVB, &uSize, &offset);

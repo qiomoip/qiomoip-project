@@ -20,12 +20,12 @@ void CTerrain::Init()
 	BuildGeometryBuffers();
 }
 
-void CTerrain::Render(CShader* pShader, const TECH_TYPE& eTech, const UINT& uPass)
+void CTerrain::Render(CShader* pShader, const TECH_TYPE& eTech, const INPUTLAYOUT_TYPE& eInputLayout, const UINT& uPass)
 {
 	UINT stride = sizeof(VERTEXTEX);
     UINT offset = 0;
 
-	ID3D11InputLayout* pInputLayout = pShader->GetInputLayout(m_eInputLayout);
+	ID3D11InputLayout* pInputLayout = pShader->GetInputLayout(eInputLayout);
 
 	_ICONTEXT()->IASetInputLayout(pInputLayout);
     _ICONTEXT()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);

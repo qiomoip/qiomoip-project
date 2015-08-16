@@ -14,10 +14,12 @@
 CEntity::CEntity(void)
 	: m_pMesh(NULL)
 	, m_strEntityKey(L"")
-	, m_strShaderKey(L"")
+	, m_eShader(SHADER_NONE)
 	, m_eTechKey(DST_NONE)
 	, m_eCam(CAM_PERSPECTIVE)
 	, m_fSmooth(10.0f)
+	, m_eInputLayout(IT_DEFAULT_DEFAULT_COLOR)
+	, m_vScale(1.f, 1.f, 1.f)
 {
 	m_vecPass.reserve(5);
 }
@@ -38,10 +40,20 @@ void CEntity::SetPos(const XMFLOAT3& vPos)
 	m_vPos = vPos;
 }
 
-void CEntity::SetShaderInfo(const tstring& strShader,
+void CEntity::SetScale(const XMFLOAT3& vScale)
+{
+	m_vScale = vScale;
+}
+
+	void CEntity::SetScale(const float& sx, const float& sy, const float& sz)
+	{
+		m_vScale = XMFLOAT3(sx, sy, sz);
+	}
+
+void CEntity::SetShaderInfo(const SHADER_TYPE& eShader,
 							const TECH_TYPE& eTech)
 {
-	m_strShaderKey = strShader;
+	m_eShader = eShader;
 	m_eTechKey = eTech;
 }
 
@@ -49,6 +61,11 @@ void CEntity::SetShaderInfo(const tstring& strShader,
 void CEntity::PushPass(const PASS_TYPE& ePass)
 {
 	m_vecPass.push_back(ePass);
+}
+
+void CEntity::SetInputLayout(const INPUTLAYOUT_TYPE& eInputLayout)
+{
+	m_eInputLayout = eInputLayout;
 }
 
 
@@ -92,6 +109,8 @@ void CEntity::Update(float fTime)
 	UINT uSize1 = sizeof(XMFLOAT3);
 	memcpy(&m_matWorld._41, &m_vPos, sizeof(XMFLOAT3));
 
+	XMMATRIX matScale = XMMatrixScalingFromVector(XMLoadFloat3(&m_vScale));
+	XMStoreFloat4x4(&m_matScale, matScale);
 }
 
 void CEntity::Input(float fTime)
@@ -102,14 +121,14 @@ void CEntity::Input(float fTime)
 
 void CEntity::Render()
 {
-	CShader* pShader = _SINGLE(CShaderManager)->FindShader(m_strShaderKey);
+	CShader* pShader = _SINGLE(CShaderManager)->FindShader(m_eShader);
 	ID3DX11EffectMatrixVariable* fxWVP = pShader->GetMatrix("matWVP");
 	ID3DX11EffectMatrixVariable* fxWorld = pShader->GetMatrix("matWorld");
 
 	//matWorldInvTranspose
 	ID3DX11EffectMatrixVariable* fxIWorldInvTranspose = pShader->GetMatrix("matWorldInvTranspose");
 
-	XMMATRIX matWorld = XMLoadFloat4x4(&m_matWorld);
+	XMMATRIX matWorld = XMLoadFloat4x4(&m_matScale) * XMLoadFloat4x4(&m_matWorld);
 
 	XMMATRIX matInvTranspose =_SINGLE(CMath)->GetInverseTranspose(matWorld);
 
@@ -127,7 +146,7 @@ void CEntity::Render()
 
 	for(int i = 0; i < m_vecPass.size(); ++i)
 	{
-		m_pMesh->Render(pShader, m_eTechKey, m_vecPass[i]);
+		m_pMesh->Render(pShader, m_eTechKey, m_eInputLayout, m_vecPass[i]);
 	}
 
 

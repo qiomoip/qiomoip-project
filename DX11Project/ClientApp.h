@@ -13,6 +13,9 @@ public:
 	void Render();
 	void Clear();
 
+	virtual void OnMouseDown(WPARAM btnState, int x, int y);
+	virtual void OnMouseUp(WPARAM btnState, int x, int y)  ;
+	virtual void OnMouseMove(WPARAM btnState, int x, int y);
 	void OnResize();
 
 public:
