@@ -54,9 +54,9 @@ public:
 	//렌더 함수에서는 메쉬의 렌더를 호출한다
 	virtual void Render();
 
-	virtual void Move(XMFLOAT3&);
-	virtual void RotateY(float fAngle);
-	virtual void CheckCollision();
+	virtual void Move(XMFLOAT3&){}
+	virtual void RotateY(float fAngle){}
+	virtual void CheckCollision(){}
 public:
 	CEntity(void);
 	~CEntity(void);

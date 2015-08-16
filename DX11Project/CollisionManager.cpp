@@ -6,17 +6,6 @@ CCollisionManager::CCollisionManager(void)
 }
 
 
-CCollisionManager::~(void)
+CCollisionManager::~CCollisionManager(void)
 {
-}
-
-bool CCollisionManager::isCollision(CEntity* pEtt1, CEntity* pEtt2)
-{
-
-}
-
-void CCollisionManager::MakeSlidingVector(
-	XMVECOTR& vSlide, XMVERCTOR& vMove, XMVECTOR& vNormal)
-{
-
 }

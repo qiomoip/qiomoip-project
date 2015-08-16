@@ -52,10 +52,7 @@ HRESULT CGameEngine::Init()
 		return E_FAIL;
 	}
 
-#ifdef _DEBUG || DEBUG
-	_SINGLE(CDebug)->Init();
-	_SINGLE(CDebug)->CreateLogWindow();
-#endif
+
 	return S_OK;
 }
 
@@ -76,7 +73,7 @@ HRESULT CGameEngine::CreateEntity()
 	}
 
 	pEntity->SetShaderInfo(SHADER_DEFAULT, DST_DEFAULT);
-	pEntity->PushPass(DEFAULT_LIGHT);
+	pEntity->PushPass(DEFAULT_SKTREFLECT);
 	
 	m_listRender.push_back(pEntity);
 
@@ -91,7 +88,7 @@ HRESULT CGameEngine::CreateEntity()
 	}
 	pZombie->SetPos(XMFLOAT3(3.f, 0.f, -3.f) );
 	pZombie->SetShaderInfo(SHADER_DEFAULT, DST_DEFAULT);
-	pZombie->PushPass(DEFAULT_LIGHT);
+	pZombie->PushPass(DEFAULT_SKTREFLECT);
 	
 	m_listRender.push_back(pZombie);
 
@@ -112,7 +109,7 @@ HRESULT CGameEngine::CreateEntity()
 
 	CEntity* pSkySphere = _SINGLE(CObjectManager)->CreateObject(
 		RT_ENVIRONMENT, ET_ENVIRONMENT, MT_STATIC, GT_SPHERE, IT_DEFAULT_DEFAULT_LIGHT,
-		L"Environment", _T("Resource\\Texture\\snowcube1024.dds") );
+		L"Environment", _T("Resource\\Texture\\snowcube1024.dds"), "g_texCube" ); 
 
 	if(!pSkySphere)
 	{
@@ -221,6 +218,7 @@ HRESULT CGameEngine::CreateLight()
 	Material.vDiffuse = XMFLOAT4(1.f, 1.f, 1.f, 1.0f);
 	Material.vAmbient = XMFLOAT4(0.5f, 0.5f, 0.5f, 1.0f);
 	Material.vSpecular = Material.vAmbient;
+	Material.vReflect = XMFLOAT4(0.5f, 0.5f, 0.5f, 1.f);
 
 	CShader* pShader = _SINGLE(CShaderManager)->FindShader(SHADER_DEFAULT);
 
@@ -241,6 +239,7 @@ void CGameEngine::Input()
 	_SINGLE(CKeyManager)->SetKeyState();
 	_SINGLE(CObjectManager)->Input();
 	_SINGLE(CCameraManager)->Input();
+
 }
 
 void CGameEngine::Update(float fTime)
@@ -248,6 +247,7 @@ void CGameEngine::Update(float fTime)
 	_SINGLE(CKeyManager)->SetKeyState();
 	_SINGLE(CCameraManager)->Update(fTime);
 	_SINGLE(CObjectManager)->Update(fTime);
+
 }
 
 void CGameEngine::Render()
@@ -276,6 +276,7 @@ void CGameEngine::Render()
 	}
 
 	_SINGLE(CDevice)->EndRender();
+
 }
 
 void CGameEngine::Clear()

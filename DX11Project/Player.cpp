@@ -1,7 +1,7 @@
 #include "Player.h"
 #include "KeyManager.h"
 #include "ObjectManager.h"
-
+#include "Debug.h"
 CPlayer::CPlayer(void)
 {
 }
@@ -15,7 +15,10 @@ void CPlayer::Update(float fTime)
 {
 	float MoveSmooth = fTime * m_tInputInfo.fMoveSpeed;
 	float RoateSmooth = fTime * m_tInputInfo.fRotateSpeed;
-	m_tInputInfo.fMove *= MoveSmooth; 
+	
+	XMVECTOR vMove = XMLoadFloat3(&m_tInputInfo.fMove);;
+		vMove *= MoveSmooth;
+	XMStoreFloat3( &m_tInputInfo.fMove, vMove);
 
 	//충돌 체크 
 	//CheckCollision();
@@ -28,9 +31,11 @@ void CPlayer::Update(float fTime)
 	if( m_tInputInfo.fAngle.y )
 		RotateY( m_tInputInfo.fAngle.y * RoateSmooth );
 
+	
 	//입력 초기화
 	memset( &m_tInputInfo.fMove, 0, sizeof(XMFLOAT3) );
 	memset( &m_tInputInfo.fAngle, 0, sizeof(XMFLOAT3) );
+	
 
 	CEntity::Update(fTime);
 }
@@ -98,7 +103,8 @@ void CPlayer::Move(XMFLOAT3& fMove)
 {
 	XMVECTOR	vPos = XMLoadFloat3(&m_vPos);
 	XMVECTOR	vMove = XMLoadFloat3(&fMove); 
-	m_tInputInfo.fMove = XMVector3Normalize( vMove);
+	
+	//vMove = XMVector3Normalize( vMove);
 	vPos += vMove;
 	XMStoreFloat3(&m_vPos, vPos);
 }
@@ -107,7 +113,8 @@ void CPlayer::RotateY(float fAngle)
 {
 	XMMATRIX matRotY = XMMatrixRotationY(fAngle);
 	//CXMMATRIX 형식으로 바꿀 필요 있음.
-	m_matWorld = XMMatrixMultiply( m_matWorld, matRotY);
+	XMMATRIX matWorld = XMLoadFloat4x4( &m_matWorld );
+	XMStoreFloat4x4( &m_matWorld , XMMatrixMultiply( matWorld , matRotY) );
 }
 
 void CPlayer::CheckCollision()

@@ -108,7 +108,6 @@ void CEntity::Update(float fTime)
 {
 	//여기서 월드행렬 설정
 	//월드행렬 만들기
-
 	UINT uSize1 = sizeof(XMFLOAT3);
 	memcpy(&m_matWorld._41, &m_vPos, sizeof(XMFLOAT3));
 

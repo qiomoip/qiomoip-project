@@ -3,6 +3,7 @@
 #include "Entity.h"
 #include "Player.h"
 #include "Zombie.h"
+#include "Environment.h"
 
 CObjectManager::CObjectManager(void)
 {
@@ -17,7 +18,7 @@ CObjectManager::~CObjectManager(void)
 CEntity* CObjectManager::CreateObject(const RENDER_TYPE& eRender, const ENTITY_TYPE& eEntity, 
 									  const MESH_TYPE& eMesh, const GEOMETRY_TYPE& eGeo, const INPUTLAYOUT_TYPE& eInputLayout,
 									  const tstring& strEntityKey,
-									  const tstring& strTextureName, const LPCTSTR pFileName)
+									  const tstring& strTextureName, const LPCSTR pTextureName, const LPCTSTR pFileName)
 {
 
 	CEntity* pEntity = FindObject(strEntityKey);
@@ -30,8 +31,10 @@ CEntity* CObjectManager::CreateObject(const RENDER_TYPE& eRender, const ENTITY_T
 	case ET_TERRAIN:
 	case ET_SKULL:
 	case ET_WAVES:
-	case ET_ENVIRONMENT:
 		pEntity = new CEntity;
+		break;
+	case ET_ENVIRONMENT:
+		pEntity = new CEnvironment;
 		break;
 	case ET_PLAYER:
 		pEntity = new CPlayer;
@@ -53,7 +56,7 @@ CEntity* CObjectManager::CreateObject(const RENDER_TYPE& eRender, const ENTITY_T
 		//pEntity->SetMesh();
 
 		CBaseMesh* pMesh = _SINGLE(CResourceManager)->CreateRenderer(
-			eMesh, eGeo, pFileName, strTextureName);
+			eMesh, eGeo, pFileName, pTextureName, strTextureName);
 		pEntity->SetMesh(pMesh);
 	}
 
