@@ -15,7 +15,7 @@ public:
 	HRESULT CreateShader();
 	HRESULT CreateLight();
 
-	void Input(float fTime);
+	void Input();
 	void Update(float fTime);
 	void Render();
 	void Clear();

@@ -33,7 +33,7 @@ public:
 
 	virtual bool Init(const int& iWidth, const int& iHeight);
 	virtual void Update(float fTime)PURE;
-	virtual void Input(float fTime)PURE;
+	virtual void Input()PURE;
 	virtual void Render()PURE;
 	virtual void Clear()PURE;
 	virtual LRESULT MsgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);

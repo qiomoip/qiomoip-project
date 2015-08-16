@@ -70,7 +70,7 @@ void		CCamera::Update(float fTime)
 	UpdateViewMatrix();
 }
 
-void		CCamera::Input(float fTime)
+void		CCamera::Input()
 {
 	const KEYINFO* pKey = NULL;
 	

@@ -17,10 +17,11 @@ public:
 		const tstring& strEntityKey, const tstring& strTextureName = L"", const LPCTSTR pFileName = NULL);
 	CEntity* FindObject(const tstring& strKey);
 	void DeleteObject(const tstring& strKey);
-	void Input(float fTime);
+	void Input();
 	void Update(float fTime);
 	void Clear();
 
+	map<tstring, CEntity*> GetMapObject();
 private:
 	CObjectManager(void);
 	~CObjectManager(void);

@@ -68,7 +68,7 @@ void CCameraManager::Update(float fTime)
 	m_pCurCamera->Update(fTime);
 }
 
-void CCameraManager::Input(float fTime)
+void CCameraManager::Input()
 {
 #if defined(DEBUG) | defined(_DEBUG)
 	//테스트용 서브 카메라 전환.(메인 카메라로 시작하는 것을 전제.)
@@ -96,7 +96,7 @@ void CCameraManager::Input(float fTime)
 
 	if(!m_pCurCamera)
 		return;
-	m_pCurCamera->Input(fTime);
+	m_pCurCamera->Input();
 }
 
 void CCameraManager::Clear()

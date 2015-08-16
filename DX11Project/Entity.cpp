@@ -17,11 +17,12 @@ CEntity::CEntity(void)
 	, m_eShader(SHADER_NONE)
 	, m_eTechKey(DST_NONE)
 	, m_eCam(CAM_PERSPECTIVE)
-	, m_fSmooth(10.0f)
+	
 	, m_eInputLayout(IT_DEFAULT_DEFAULT_COLOR)
 	, m_vScale(1.f, 1.f, 1.f)
 {
 	m_vecPass.reserve(5);
+	memset(&m_tInputInfo, 0, sizeof(INPUTINFO) );
 }
 
 
@@ -97,7 +98,9 @@ bool CEntity::Init()
 	m_LocalAxis[AT_Z].z = 1.f;
 
 	memcpy(m_WorldAxis, m_LocalAxis, sizeof(XMFLOAT3) * AT_MAX);
-
+	
+	m_tInputInfo.fMoveSpeed = 10.f;
+	m_tInputInfo.fRotateSpeed = XM_PI;
 	return true;
 }
 
@@ -113,11 +116,9 @@ void CEntity::Update(float fTime)
 	XMStoreFloat4x4(&m_matScale, matScale);
 }
 
-void CEntity::Input(float fTime)
-{
-	
+void CEntity::Input()
+{	
 }
-
 
 void CEntity::Render()
 {
@@ -142,12 +143,8 @@ void CEntity::Render()
 	fxWorld->SetMatrix(reinterpret_cast<float*>(&matWorld));
 	fxIWorldInvTranspose->SetMatrix(reinterpret_cast<float*>(&matInvTranspose));
 
-	
-
 	for(int i = 0; i < m_vecPass.size(); ++i)
 	{
 		m_pMesh->Render(pShader, m_eTechKey, m_eInputLayout, m_vecPass[i]);
 	}
-
-
 }

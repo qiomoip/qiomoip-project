@@ -7,6 +7,7 @@
 #include <d3d11.h>
 #include <dxgi.h>
 #include <DirectXMath.h>
+#include <DirectXCollision.h>
 #include <DirectXPackedVector.h>
 #include <cassert>
 #include <ctime>

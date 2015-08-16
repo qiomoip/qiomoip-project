@@ -29,7 +29,7 @@ protected:
 	CAMERA_TYPE	m_eCam;
 
 	//이동, 회전 속도값
-	float		m_fSmooth;
+	INPUTINFO	m_tInputInfo;
 
 public:
 	void SetMesh(CBaseMesh* pMesh);
@@ -50,10 +50,13 @@ public:
 public:
 	bool Init();
 	virtual void Update(float fTime);
-	virtual void Input(float fTime);
+	virtual void Input();
 	//렌더 함수에서는 메쉬의 렌더를 호출한다
 	virtual void Render();
 
+	virtual void Move(XMFLOAT3&);
+	virtual void RotateY(float fAngle);
+	virtual void CheckCollision();
 public:
 	CEntity(void);
 	~CEntity(void);

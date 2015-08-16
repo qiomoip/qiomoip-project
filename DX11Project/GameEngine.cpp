@@ -16,6 +16,11 @@
 #include "ResourceManager.h"
 #include "Math.h"
 
+#include "CollisionManager.h"
+
+#ifdef _DEBUG || DEBUG
+#include "Debug.h"
+#endif
 CGameEngine::CGameEngine(void)
 {
 }
@@ -46,6 +51,11 @@ HRESULT CGameEngine::Init()
 	{
 		return E_FAIL;
 	}
+
+#ifdef _DEBUG || DEBUG
+	_SINGLE(CDebug)->Init();
+	_SINGLE(CDebug)->CreateLogWindow();
+#endif
 	return S_OK;
 }
 
@@ -151,6 +161,7 @@ HRESULT CGameEngine::CreateCamera()
 		1.f, 1000.f);
 	pSubCamera ->LookAt(XMFLOAT3(0.f, 10.f, -10.f), XMFLOAT3(0.f, 0.f, 0.f), XMFLOAT3(0.f, 1.f, 0.f));
 #endif
+
 	return S_OK;
 }
 
@@ -225,11 +236,11 @@ HRESULT CGameEngine::CreateLight()
 	return S_OK;
 }
 
-void CGameEngine::Input(float fTime)
+void CGameEngine::Input()
 {
 	_SINGLE(CKeyManager)->SetKeyState();
-	_SINGLE(CObjectManager)->Input(fTime);
-	_SINGLE(CCameraManager)->Input(fTime);
+	_SINGLE(CObjectManager)->Input();
+	_SINGLE(CCameraManager)->Input();
 }
 
 void CGameEngine::Update(float fTime)
@@ -275,5 +286,9 @@ void CGameEngine::Clear()
 	_SINGLE(CObjectManager)->DestroyInstance();
 	_SINGLE(CShaderManager)->DestroyInstance();
 	_SINGLE(CCameraManager)->DestroyInstance();
+	_SINGLE(CCollisionManager)->DestroyInstance();
 
+#ifdef _DEBUG || DEBUG
+	_SINGLE(CDebug)->DestroyInstance();
+#endif
 }

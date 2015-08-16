@@ -90,13 +90,13 @@ void CObjectManager::DeleteObject(const tstring& strKey)
 	m_mapObject.erase(iter);
 }
 
-void CObjectManager::Input(float fTime)
+void CObjectManager::Input()
 {
 	map<tstring, CEntity*>::iterator iter = m_mapObject.begin();
 
 	for(; iter != m_mapObject.end(); ++iter)
 	{
-		iter->second->Input(fTime);
+		iter->second->Input();
 	}
 }
 
@@ -120,4 +120,9 @@ void CObjectManager::Clear()
 		Safe_Delete(iter->second);
 	}
 	m_mapObject.clear();
+}
+
+map<tstring, CEntity*> CObjectManager::GetMapObject()
+{
+	return m_mapObject;
 }

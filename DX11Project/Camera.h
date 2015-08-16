@@ -34,7 +34,7 @@ private:
 public:
 	virtual void		Init();
 	virtual void		Update(float fTime);
-	virtual void		Input(float fTime);
+	virtual void		Input();
 
 	//세계공간 카메라 위치를 조회
 	XMVECTOR			GetPositionXM() const;
