@@ -11,7 +11,6 @@ public:
 	virtual void Input();
 
 	virtual void Move(XMFLOAT3& fMove);
-
 	virtual void RotateY(float fAngle);
 
 	virtual void CheckCollision();

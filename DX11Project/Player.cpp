@@ -16,16 +16,15 @@ void CPlayer::Update(float fTime)
 	float MoveSmooth = fTime * m_tInputInfo.fMoveSpeed;
 	float RoateSmooth = fTime * m_tInputInfo.fRotateSpeed;
 	
-	XMVECTOR vMove = XMLoadFloat3(&m_tInputInfo.fMove);;
-		vMove *= MoveSmooth;
+	XMVECTOR vMove = XMLoadFloat3(&m_tInputInfo.fMove);
+	vMove = XMVector3Normalize( vMove);
+	vMove *= MoveSmooth;
 	XMStoreFloat3( &m_tInputInfo.fMove, vMove);
 
 	//충돌 체크 
 	//CheckCollision();
 	//이동
-	if( m_tInputInfo.fMove.x  )
-		Move( m_tInputInfo.fMove );
-	if( m_tInputInfo.fMove.z )
+	if( m_tInputInfo.fMove.x || m_tInputInfo.fMove.z  )
 		Move( m_tInputInfo.fMove );
 	//회전
 	if( m_tInputInfo.fAngle.y )
@@ -108,6 +107,7 @@ void CPlayer::Move(XMFLOAT3& fMove)
 	vPos += vMove;
 	XMStoreFloat3(&m_vPos, vPos);
 }
+
 
 void CPlayer::RotateY(float fAngle)
 {
