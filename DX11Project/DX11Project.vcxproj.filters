@@ -3,11 +3,13 @@
   <ItemGroup>
     <Filter Include="소스 파일">
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+      <Extensions>
+      </Extensions>
     </Filter>
     <Filter Include="헤더 파일">
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+      <Extensions>
+      </Extensions>
     </Filter>
     <Filter Include="리소스 파일">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
@@ -81,6 +83,9 @@
     </Filter>
     <Filter Include="소스 파일\DeviceResources\Mesh\Geometry\EliipsoidGeometry">
       <UniqueIdentifier>{07a374de-74e5-4440-b217-79bb4cd9ec9b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\DeviceResources\Mesh\Geometry\SphereGeometry">
+      <UniqueIdentifier>{dd2870e5-e3fd-4d87-8e14-e9cf4d509ca3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -165,20 +170,27 @@
     <ClInclude Include="Math.h">
       <Filter>소스 파일\Math</Filter>
     </ClInclude>
+    <ClInclude Include="Debug.h" />
+    <ClInclude Include="GeometryGenerator.h">
+      <Filter>소스 파일\DeviceResources\Mesh\Geometry\Generator</Filter>
+    </ClInclude>
+    <ClInclude Include="Terrain.h">
+      <Filter>소스 파일\DeviceResources\Mesh\Geometry\Terrain</Filter>
+    </ClInclude>
     <ClInclude Include="Player.h">
       <Filter>소스 파일\ObjectManager\Entity</Filter>
     </ClInclude>
     <ClInclude Include="Zombie.h">
       <Filter>소스 파일\ObjectManager\Entity</Filter>
     </ClInclude>
-    <ClInclude Include="Terrain.h">
-      <Filter>소스 파일\DeviceResources\Mesh\Geometry\Terrain</Filter>
+    <ClInclude Include="Environment.h">
+      <Filter>소스 파일\DeviceResources</Filter>
     </ClInclude>
-    <ClInclude Include="GeometryGenerator.h">
-      <Filter>소스 파일\DeviceResources\Mesh\Geometry\Generator</Filter>
+    <ClInclude Include="SphereGeometry.h">
+      <Filter>소스 파일\DeviceResources\Mesh\Geometry\SphereGeometry</Filter>
     </ClInclude>
-    <ClInclude Include="EllipsoidGeometry.h">
-      <Filter>소스 파일\DeviceResources\Mesh\Geometry\EliipsoidGeometry</Filter>
+    <ClInclude Include="DefaultShader.h">
+      <Filter>소스 파일\Shader</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -248,28 +260,33 @@
     <ClCompile Include="Math.cpp">
       <Filter>소스 파일\Math</Filter>
     </ClCompile>
+    <ClCompile Include="Debug.cpp" />
+    <ClCompile Include="GeometryGenerator.cpp">
+      <Filter>소스 파일\DeviceResources\Mesh\Geometry\Generator</Filter>
+    </ClCompile>
+    <ClCompile Include="Terrain.cpp">
+      <Filter>소스 파일\DeviceResources\Mesh\Geometry\Terrain</Filter>
+    </ClCompile>
     <ClCompile Include="Player.cpp">
       <Filter>소스 파일\ObjectManager\Entity</Filter>
     </ClCompile>
     <ClCompile Include="Zombie.cpp">
       <Filter>소스 파일\ObjectManager\Entity</Filter>
     </ClCompile>
-    <ClCompile Include="Terrain.cpp">
-      <Filter>소스 파일\DeviceResources\Mesh\Geometry\Terrain</Filter>
+    <ClCompile Include="Environment.cpp">
+      <Filter>소스 파일\DeviceResources</Filter>
     </ClCompile>
-    <ClCompile Include="GeometryGenerator.cpp">
-      <Filter>소스 파일\DeviceResources\Mesh\Geometry\Generator</Filter>
+    <ClCompile Include="SphereGeometry.cpp">
+      <Filter>소스 파일\DeviceResources\Mesh\Geometry\SphereGeometry</Filter>
     </ClCompile>
-    <ClCompile Include="EllipsoidGeometry.cpp">
-      <Filter>소스 파일\DeviceResources\Mesh\Geometry\EliipsoidGeometry</Filter>
+    <ClCompile Include="DefaultShader.cpp">
+      <Filter>소스 파일\Shader</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="DefaultShader.fx">
       <Filter>소스 파일\Shader</Filter>
     </CustomBuild>
-    <CustomBuild Include="light.fx">
-      <Filter>소스 파일\Shader</Filter>
-    </CustomBuild>
+    <CustomBuild Include="function.fx" />
   </ItemGroup>
 </Project>
