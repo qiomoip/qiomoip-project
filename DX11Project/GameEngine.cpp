@@ -16,7 +16,6 @@
 #include "ResourceManager.h"
 #include "Math.h"
 
-#include "CollisionManager.h"
 
 #ifdef _DEBUG || DEBUG
 #include "Debug.h"
@@ -65,7 +64,7 @@ HRESULT CGameEngine::CreateEntity()
 
 	CEntity* pEntity = _SINGLE(CObjectManager)->CreateObject(
 		RT_ENTITY, ET_PLAYER, MT_STATIC, GT_BOX, IT_DEFAULT_DEFAULT_LIGHT,
-		L"Player", L"Resource\\Texture\\FireAnim\\Fire%d.dds");
+		L"Player", L"Resource\\Texture\\FireAnim\\Fire%d.png");
 
 	if(!pEntity)
 	{
@@ -287,7 +286,6 @@ void CGameEngine::Clear()
 	_SINGLE(CObjectManager)->DestroyInstance();
 	_SINGLE(CShaderManager)->DestroyInstance();
 	_SINGLE(CCameraManager)->DestroyInstance();
-	_SINGLE(CCollisionManager)->DestroyInstance();
 
 #ifdef _DEBUG || DEBUG
 	_SINGLE(CDebug)->DestroyInstance();
